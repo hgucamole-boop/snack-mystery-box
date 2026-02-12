@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 // Google Analytics Helper
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Replace with your GA4 Measurement ID
+const GA_MEASUREMENT_ID = 'G-M26YWFT73Q'; 
 
 export function initGA() {
   if (typeof window !== 'undefined') {
