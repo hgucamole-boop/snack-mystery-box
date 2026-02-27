@@ -61,23 +61,23 @@ export default function SnackBoxLanding() {
     {
       id: 'weekly',
       name: 'Weekly Mystery',
-      price: '$12',
-      items: '8-12 items',
+      price: '$9.99',
+      items: '4-5 items',
       description: 'A surprise every week'
     },
     {
       id: 'biweekly',
       name: 'Bi-Weekly Discovery',
-      price: '$20',
-      items: '15-20 items',
+      price: '$18.99',
+      items: '10-15 items',
       description: 'Bigger boxes, bigger savings',
       popular: true
     },
     {
       id: 'monthly',
       name: 'Monthly Treasure',
-      price: '$35',
-      items: '30-40 items',
+      price: '$34.99',
+      items: '25-35 items',
       description: 'Maximum variety'
     }
   ];
