@@ -234,7 +234,3 @@
 4. **Select Plan** → Interactive selection gives satisfaction
 5. **Sign Up** → Simple, clear form at bottom
 6. **Done** → Memorable experience, likely to share
-
----
-
-**This is not your average subscription landing page. It's designed to stand out, convert, and be remembered.** 🎯
