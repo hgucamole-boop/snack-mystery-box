@@ -1,3 +1,5 @@
+// should be in env file, but this is fine for now
+// not a secret key or anything
 const GA_MEASUREMENT_ID = 'G-M26YWFT73Q';
 
 export function initGA() {
