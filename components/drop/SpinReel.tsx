@@ -77,7 +77,7 @@ export function SpinReel({ onResult }: SpinReelProps) {
 
   // Calculate scroll distance (each item is 120px + 16px gap)
   const itemWidth = 136;
-  const scrollDistance = itemWidth * 37 - (window.innerWidth / 2) + 60;
+ const scrollDistance = itemWidth * 37 - (typeof window !== 'undefined' ? window.innerWidth / 2 : 600) + 60;
 
   return (
     <div className="w-full">
