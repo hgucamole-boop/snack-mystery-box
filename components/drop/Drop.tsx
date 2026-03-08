@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+import { Navbar } from '@/app/components/Navbar';
+import { Footer } from '@/app/components/Footer';
 import { CaseSelector } from '@/components/drop/CaseSelector';
 import { LiveFeed } from '@/components/drop/LiveFeed';
 import { SpinReel } from '@/components/drop/SpinReel';
