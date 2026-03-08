@@ -1,5 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Archivo+Black&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pink: 346 100% 59%;
+  --gold: 51 100% 50%;
+  --cyan: 195 100% 50%;
+  --navy: 240 30% 8%;
+  --navy-2: 240 25% 14%;
+  --orange: 20 100% 60%;
+  --purple: 276 61% 46%;
+  --cream: 39 100% 95%;
+}
+
+body {
+  background-color: hsl(var(--navy));
+  color: hsl(var(--cream));
+}
+
 * {
   margin: 0;
   padding: 0;
