@@ -6,27 +6,25 @@ import { useStore } from '@/store/useStore';
 
 interface SpinReelProps {
   onResult: (item: SnackItemData) => void;
+  triggerSpin?: number;
 }
 
-export function SpinReel({ onResult }: SpinReelProps) {
+export function SpinReel({ onResult, triggerSpin }: SpinReelProps) {
   const selectedCase = useStore((state) => state.selectedCase);
   const isSpinning = useStore((state) => state.isSpinning);
   const setIsSpinning = useStore((state) => state.setIsSpinning);
   
   const [reelItems, setReelItems] = useState<SnackItemData[]>([]);
   const [resultItem, setResultItem] = useState<SnackItemData | null>(null);
-  const [canSpin, setCanSpin] = useState(true);
   
   const config = caseConfig[selectedCase];
   
-  // Get items available for this case
   const caseItems = snackItems.filter(item => 
     config.rarities.includes(item.rarity)
   );
 
   const generateReelItems = (winner: SnackItemData): SnackItemData[] => {
     const items: SnackItemData[] = [];
-    // Generate 40 items, winner at position 37
     for (let i = 0; i < 40; i++) {
       if (i === 37) {
         items.push(winner);
@@ -38,16 +36,14 @@ export function SpinReel({ onResult }: SpinReelProps) {
   };
 
   const handleSpin = () => {
-    if (isSpinning || !canSpin) return;
+    if (isSpinning) return;
     
     setIsSpinning(true);
     setResultItem(null);
     
-    // Determine the winner
     const winner = getRandomItemForCase(selectedCase);
     setReelItems(generateReelItems(winner));
     
-    // After animation completes, show result
     setTimeout(() => {
       setIsSpinning(false);
       setResultItem(winner);
@@ -55,7 +51,6 @@ export function SpinReel({ onResult }: SpinReelProps) {
     }, 4000);
   };
 
-  // Initialize reel
   useEffect(() => {
     const initialItems = Array.from({ length: 40 }, () => 
       caseItems[Math.floor(Math.random() * caseItems.length)]
@@ -63,45 +58,38 @@ export function SpinReel({ onResult }: SpinReelProps) {
     setReelItems(initialItems);
   }, [selectedCase]);
 
-  // Calculate scroll distance (each item is 120px + 16px gap)
+  useEffect(() => {
+    if (triggerSpin && triggerSpin > 0) {
+      handleSpin();
+    }
+  }, [triggerSpin]);
+
   const itemWidth = 136;
- const scrollDistance = itemWidth * 37 - (typeof window !== 'undefined' ? window.innerWidth / 2 : 600) + 60;
+  const scrollDistance = itemWidth * 37 - (typeof window !== 'undefined' ? window.innerWidth / 2 : 600) + 60;
 
   return (
     <div className="w-full">
-      {/* Indicator arrow */}
       <div className="relative h-8 flex justify-center">
         <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[16px] border-l-transparent border-r-transparent border-t-cyan" />
       </div>
       
-      {/* Reel container */}
       <div className="relative overflow-hidden bg-navy-2 border-y-2 border-cyan py-4">
-        {/* Gradient overlays */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-navy-2 to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-navy-2 to-transparent z-10 pointer-events-none" />
         
-        {/* Reel */}
         <motion.div
           className="flex gap-4 px-4"
-          animate={isSpinning ? { 
-            x: -scrollDistance 
-          } : {}}
+          animate={isSpinning ? { x: -scrollDistance } : {}}
           transition={isSpinning ? {
             duration: 4,
             ease: [0.25, 0.46, 0.45, 0.94],
           } : {}}
-          style={{ 
-            filter: isSpinning ? 'blur(1px)' : 'none',
-          }}
+          style={{ filter: isSpinning ? 'blur(1px)' : 'none' }}
         >
           {reelItems.map((item, index) => (
             <motion.div
               key={`${item.id}-${index}`}
-              className={`shrink-0 w-[120px] h-[120px] flex flex-col items-center justify-center border-2 bg-navy transition-all ${
-                !isSpinning && resultItem && index === 37
-                  ? `border-${rarityColors[item.rarity]} scale-110 glow-${rarityColors[item.rarity]}`
-                  : 'border-border'
-              }`}
+              className="shrink-0 w-[120px] h-[120px] flex flex-col items-center justify-center border-2 bg-navy transition-all"
               style={{
                 borderColor: !isSpinning && resultItem && index === 37 
                   ? `hsl(var(--${rarityColors[item.rarity]}))` 
@@ -126,7 +114,6 @@ export function SpinReel({ onResult }: SpinReelProps) {
         </motion.div>
       </div>
       
-      {/* Spin button */}
       <div className="mt-6 flex flex-col items-center gap-4">
         <motion.button
           onClick={handleSpin}
@@ -135,9 +122,8 @@ export function SpinReel({ onResult }: SpinReelProps) {
           whileTap={{ scale: 0.95 }}
           className="px-12 py-4 bg-pink text-primary-foreground font-display text-2xl border-2 border-gold hover:glow-gold disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         >
-          {isSpinning ? '🎰 SPINNING...' : `🎰 OPEN DROP`}
+          {isSpinning ? '🎰 SPINNING...' : '🎰 OPEN DROP'}
         </motion.button>
-        
       </div>
     </div>
   );
