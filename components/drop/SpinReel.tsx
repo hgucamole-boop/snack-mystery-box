@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { snackItems, rarityColors, caseConfig, getRandomItemForCase, type SnackItemData } from '@/data/snackItems';
 import { useStore } from '@/store/useStore';
@@ -7,9 +7,10 @@ import { useStore } from '@/store/useStore';
 interface SpinReelProps {
   onResult: (item: SnackItemData) => void;
   triggerSpin?: number;
+  onSnackClick?: (item: SnackItemData) => void;
 }
 
-export function SpinReel({ onResult, triggerSpin }: SpinReelProps) {
+export function SpinReel({ onResult, triggerSpin, onSnackClick }: SpinReelProps) {
   const selectedCase = useStore((state) => state.selectedCase);
   const isSpinning = useStore((state) => state.isSpinning);
   const setIsSpinning = useStore((state) => state.setIsSpinning);
@@ -18,10 +19,7 @@ export function SpinReel({ onResult, triggerSpin }: SpinReelProps) {
   const [resultItem, setResultItem] = useState<SnackItemData | null>(null);
   
   const config = caseConfig[selectedCase];
-  
-  const caseItems = snackItems.filter(item => 
-    config.rarities.includes(item.rarity)
-  );
+  const caseItems = snackItems.filter(item => config.rarities.includes(item.rarity));
 
   const generateReelItems = (winner: SnackItemData): SnackItemData[] => {
     const items: SnackItemData[] = [];
@@ -37,13 +35,10 @@ export function SpinReel({ onResult, triggerSpin }: SpinReelProps) {
 
   const handleSpin = () => {
     if (isSpinning) return;
-    
     setIsSpinning(true);
     setResultItem(null);
-    
     const winner = getRandomItemForCase(selectedCase);
     setReelItems(generateReelItems(winner));
-    
     setTimeout(() => {
       setIsSpinning(false);
       setResultItem(winner);
@@ -80,16 +75,14 @@ export function SpinReel({ onResult, triggerSpin }: SpinReelProps) {
         <motion.div
           className="flex gap-4 px-4"
           animate={isSpinning ? { x: -scrollDistance } : {}}
-          transition={isSpinning ? {
-            duration: 4,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          } : {}}
+          transition={isSpinning ? { duration: 4, ease: [0.25, 0.46, 0.45, 0.94] } : {}}
           style={{ filter: isSpinning ? 'blur(1px)' : 'none' }}
         >
           {reelItems.map((item, index) => (
             <motion.div
               key={`${item.id}-${index}`}
-              className="shrink-0 w-[120px] h-[120px] flex flex-col items-center justify-center border-2 bg-navy transition-all"
+              onClick={() => !isSpinning && onSnackClick && onSnackClick(item)}
+              className="shrink-0 w-[120px] h-[120px] flex flex-col items-center justify-center border-2 bg-navy transition-all cursor-pointer hover:scale-105"
               style={{
                 borderColor: !isSpinning && resultItem && index === 37 
                   ? `hsl(var(--${rarityColors[item.rarity]}))` 

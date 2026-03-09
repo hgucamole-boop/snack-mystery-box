@@ -16,6 +16,10 @@ interface FakeDrop {
   createdAt: Date;
 }
 
+interface LiveDropsSidebarProps {
+  onSnackClick?: (item: typeof snackItems[0]) => void;
+}
+
 function generateFakeDrop(id: number): FakeDrop {
   return {
     id,
@@ -25,7 +29,7 @@ function generateFakeDrop(id: number): FakeDrop {
   };
 }
 
-export function LiveDropsSidebar() {
+export function LiveDropsSidebar({ onSnackClick }: LiveDropsSidebarProps) {
   const [drops, setDrops] = useState<FakeDrop[]>([]);
 
   useEffect(() => {
@@ -60,7 +64,8 @@ export function LiveDropsSidebar() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, height: 0 }}
-              className="flex items-center gap-3 px-3 py-2.5 border-b border-border/50 hover:bg-muted/30 transition-colors"
+              onClick={() => onSnackClick && onSnackClick(drop.item)}
+              className="flex items-center gap-3 px-3 py-2.5 border-b border-border/50 hover:bg-muted/30 transition-colors cursor-pointer"
             >
               <div
                 className="w-12 h-12 shrink-0 flex items-center justify-center border rounded"

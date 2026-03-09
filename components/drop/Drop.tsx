@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { Navbar } from '@/app/components/Navbar';
 import { Footer } from '@/app/components/Footer';
 import { CaseSelector } from '@/components/drop/CaseSelector';
-import { LiveFeed } from '@/components/drop/LiveFeed';
 import { SpinReel } from '@/components/drop/SpinReel';
 import { ResultReveal } from '@/components/drop/ResultReveal';
 import { EarningsTracker } from '@/components/drop/EarningsTracker';
 import { LiveDropsSidebar } from '@/components/drop/LiveDropsSidebar';
+import { SnackDetailModal } from '@/app/components/SnackDetailModal';
 import { type SnackItemData, caseConfig } from '@/data/snackItems';
 import { useStore } from '@/store/useStore';
 import { motion } from 'framer-motion';
@@ -17,6 +17,7 @@ const Drop = () => {
   const [showResult, setShowResult] = useState(false);
   const [sessionDrops, setSessionDrops] = useState<{ item: SnackItemData; cost: number }[]>([]);
   const [triggerSpin, setTriggerSpin] = useState(0);
+  const [detailItem, setDetailItem] = useState<SnackItemData | null>(null);
   const selectedCase = useStore((s) => s.selectedCase);
   const config = caseConfig[selectedCase];
 
@@ -38,12 +39,10 @@ const Drop = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <div className="flex pt-16">
-        {/* Left: Earnings tracker (desktop only) */}
         <div className="hidden lg:block w-64 shrink-0 border-r border-border bg-card/30 p-3 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto">
           <EarningsTracker drops={sessionDrops} />
         </div>
 
-        {/* Main content */}
         <div className="flex-1 min-w-0">
           <main className="pb-12">
             <div className="container mx-auto px-4">
@@ -54,24 +53,16 @@ const Drop = () => {
                 </p>
               </motion.div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div className="lg:col-span-4">
-                  <CaseSelector onSelect={() => {}} />
-                </div>
-                <div className="lg:col-span-8 h-[400px] bg-navy-2 border border-border p-4">
-                  <LiveFeed />
-                </div>
-              </div>
+              <CaseSelector onSelect={() => {}} />
 
               <div className="mt-12">
-                <SpinReel onResult={handleResult} triggerSpin={triggerSpin} />
+                <SpinReel onResult={handleResult} triggerSpin={triggerSpin} onSnackClick={setDetailItem} />
               </div>
             </div>
           </main>
         </div>
 
-        {/* Right: Live drops sidebar (XL only) */}
-        <LiveDropsSidebar />
+        <LiveDropsSidebar onSnackClick={setDetailItem} />
       </div>
       <Footer />
 
@@ -84,6 +75,8 @@ const Drop = () => {
           caseCost={config.price}
         />
       )}
+
+      <SnackDetailModal item={detailItem} onClose={() => setDetailItem(null)} />
     </div>
   );
 };

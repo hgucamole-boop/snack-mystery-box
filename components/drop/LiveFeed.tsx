@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { type Drop } from '@/lib/supabase';
 import { snackItems, rarityColors, type Rarity } from '@/data/snackItems';
+import { useSnackModal } from '@/app/components/SnackModalProvider';
 
 // Generate fake usernames
 const fakeUsernames = [
@@ -36,7 +37,8 @@ function formatTimeAgo(date: Date): string {
 
 export function LiveFeed() {
   const [drops, setDrops] = useState<FakeDrop[]>([]);
-
+  const { openSnack } = useSnackModal(); 
+  
   useEffect(() => {
     // Initialize with fake drops
     const initialDrops = Array.from({ length: 15 }, (_, i) => generateFakeDrop(i));
