@@ -1,4 +1,5 @@
 'use client';
+import { playWhoosh, playTick, playDing, playFanfare } from '@/lib/sounds';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { snackItems, rarityColors, caseConfig, getRandomItemForCase, type SnackItemData } from '@/data/snackItems';
@@ -33,18 +34,25 @@ export function SpinReel({ onResult, triggerSpin, onSnackClick }: SpinReelProps)
     return items;
   };
 
-  const handleSpin = () => {
-    if (isSpinning) return;
-    setIsSpinning(true);
-    setResultItem(null);
-    const winner = getRandomItemForCase(selectedCase);
-    setReelItems(generateReelItems(winner));
-    setTimeout(() => {
-      setIsSpinning(false);
-      setResultItem(winner);
-      onResult(winner);
-    }, 4000);
-  };
+    const handleSpin = () => {
+  if (isSpinning) return;
+  setIsSpinning(true);
+  setResultItem(null);
+  playWhoosh(); // ← add this
+  const winner = getRandomItemForCase(selectedCase);
+  setReelItems(generateReelItems(winner));
+  setTimeout(() => {
+    setIsSpinning(false);
+    setResultItem(winner);
+    onResult(winner);
+    // Play sound based on rarity
+    if (winner.rarity === 'LEGENDARY' || winner.rarity === 'ULTRA') {
+      playFanfare(); // ← add this
+    } else {
+      playDing(); // ← add this
+    }
+  }, 4000);
+};
 
   useEffect(() => {
     const initialItems = Array.from({ length: 40 }, () => 
