@@ -1,0 +1,138 @@
+.gacha-slot-parent {
+    width: 100%;
+    background-color: rgb(114, 142, 166);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-showcase {
+  position: relative;
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  background: linear-gradient(180deg, #0a0a0a 0%, var(--dark) 50%, #0a0a0a 100%);
+  z-index: 1;
+  animation: scrollFadeIn 1s ease-out;
+}
+
+.showcase-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.showcase-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.showcase-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--secondary);
+  text-shadow: 2px 2px 0 var(--primary);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 2px;
+}
+
+.showcase-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 245, 225, 0.7);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.slot-item {
+    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.slot-image {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+}
+
+.slot-track {
+    flex: 1;
+    width: 160px;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.slot-content {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+
+}
+
+.spin-button {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  background: var(--primary);
+  color: white;
+  border: 3px solid var(--secondary);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  letter-spacing: 2px;
+  box-shadow: var(--shadow-lg) var(--accent);
+  text-transform: uppercase;
+}
+
+.spin-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0px
+}
+
+@keyframes idleScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(-100% / 3));
+  }
+}
+
+@keyframes slotSpin {
+  0%   { 
+    transform: translateY(0); 
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  8%  { 
+    transform: translateY(calc(var(--target-y) * 0.05)); 
+    animation-timing-function: linear;
+  }
+  /* spend a long time at full speed */
+  75%  { 
+    transform: translateY(calc(var(--target-y) * 0.82)); 
+    animation-timing-function: cubic-bezier(0, 0, 0.1, 1);
+  }
+  92%  { 
+    transform: translateY(calc(var(--target-y) * 1.008));  /* 1.03 → 1.008 */
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  96%  { 
+    transform: translateY(calc(var(--target-y) * 0.997));  /* 0.985 → 0.997 */
+    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  100% { 
+    transform: translateY(var(--target-y)); 
+  }
+}
+
+.idle {
+  animation: idleScroll 20s linear infinite;
+  .slot-image { opacity: 0.6; }
+}
+
+.spinning {
+  animation: slotSpin 2.2s var(--spin-delay, 0s) forwards;
+  .slot-image { opacity: 0.3; }
+}

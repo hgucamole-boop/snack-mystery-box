@@ -9,6 +9,8 @@ import mms from '../images/mms.png';
 import skittles from '../images/skittles.png';
 import tamtam from '../images/tamtam.png';
 
+import snackBox from "../images/snackBox.png"
+
 export const products = [
   { name: "Lays Chips",              src: lays },
   { name: "Bak Kwa Fairprice Chips", src: bakkwaChips },
@@ -21,3 +23,10 @@ export const products = [
   { name: "Skittles",                src: skittles },
   { name: "Tam Tam",                 src: tamtam },
 ];
+
+export const images = {
+  snackBox: {
+    name: "Snack Box",
+    src: snackBox
+  }
+}

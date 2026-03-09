@@ -1,0 +1,30 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   GLOBAL BASE STYLES
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Archivo+Black&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--dark);
+  color: var(--light);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+}
+
+/* Utility text classes */
+.highlight {
+  color: var(--secondary);
+  font-weight: 700;
+  text-decoration: underline wavy var(--primary);
+  text-underline-offset: 5px;
+}

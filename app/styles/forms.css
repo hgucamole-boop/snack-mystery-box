@@ -1,0 +1,74 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   FORMS & SIGNUP
+   ════════════════════════════════════════════════════════════════════════════ */
+
+.signup-section {
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  background: linear-gradient(180deg, var(--dark) 0%, #1a1a3e 100%);
+  text-align: center;
+  animation: scrollFadeIn 1s ease-out;
+}
+
+.signup-form {
+  max-width: 600px;
+  margin: var(--spacing-3xl) auto 0;
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.email-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--accent);
+  color: white;
+  transition: all var(--transition-base);
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: var(--secondary);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.email-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.submit-btn {
+  font-family: var(--font-display);
+  padding: 1.2rem 2.5rem;
+  font-size: 1.3rem;
+  background: var(--primary);
+  color: white;
+  border: 3px solid var(--secondary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  letter-spacing: 2px;
+  box-shadow: var(--shadow-md) var(--accent);
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 var(--accent);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .signup-form {
+    flex-direction: column;
+  }
+
+  .email-input {
+    min-width: 100%;
+  }
+}

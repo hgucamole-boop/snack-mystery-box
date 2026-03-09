@@ -1,0 +1,322 @@
+/* /* ════════════════════════════════════════════════════════════════════════════
+   PRODUCTS & PRODUCT SHOWCASE
+   ════════════════════════════════════════════════════════════════════════════ */
+/*
+.products-intro {
+  position: relative;
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  background: linear-gradient(180deg, var(--dark) 0%, #252540 100%);
+  z-index: 1;
+  text-align: center;
+  animation: scrollFadeIn 1s ease-out;
+}
+
+.intro-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.intro-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--secondary);
+  text-shadow: 2px 2px 0 var(--primary);
+  margin-bottom: var(--spacing-xl);
+  letter-spacing: 3px;
+}
+
+.intro-text {
+  font-size: 1.1rem;
+  color: rgba(255, 245, 225, 0.85);
+  line-height: 1.8;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+/* Product Showcase Section */
+/*
+.product-showcase {
+  position: relative;
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  background: linear-gradient(180deg, #0a0a0a 0%, var(--dark) 50%, #0a0a0a 100%);
+  z-index: 1;
+  animation: scrollFadeIn 1s ease-out;
+}
+
+.showcase-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.showcase-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.showcase-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--secondary);
+  text-shadow: 2px 2px 0 var(--primary);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 2px;
+}
+
+.showcase-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 245, 225, 0.7);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Slot Machine Layout */
+/*
+.slot-machine {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  min-height: 400px;
+}
+
+.slot-column {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.slot-track {
+  flex: 1;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--radius-lg);
+}
+
+.slot-content {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+.slot-item {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.slot-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.slot-content.spinning .slot-image {
+  opacity: 0.3;
+}
+
+.slot-content.idle .slot-image {
+  opacity: 0.6;
+}
+
+/* Snack Box Container */
+/*
+.snackbox-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.snackbox-image {
+  width: 180px;
+  height: 180px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Spin Controls */
+/*
+.spin-controls {
+  text-align: center;
+  margin: var(--spacing-2xl) 0;
+}
+
+.spin-button {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  background: var(--primary);
+  color: white;
+  border: 3px solid var(--secondary);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  letter-spacing: 2px;
+  box-shadow: var(--shadow-lg) var(--accent);
+  text-transform: uppercase;
+}
+
+.spin-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 46, 99, 0.4);
+  background: var(--accent);
+  border-color: var(--primary);
+}
+
+.spin-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spin-button:disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-lg) var(--accent);
+}
+
+/* Results Display */
+/*
+.results-display {
+  text-align: center;
+  margin-top: var(--spacing-2xl);
+  padding: var(--spacing-xl);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-xl);
+  border: 2px solid var(--accent);
+}
+
+.results-display h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--secondary);
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: 2px;
+}
+
+.selected-snacks {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 120px;
+}
+
+.result-item img {
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  opacity: 1 !important; 
+}
+
+.result-item p {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--light);
+  text-align: center;
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Animations */
+/*
+@keyframes idleScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(-100% / 3));
+  }
+}
+
+@keyframes slotSpin {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-120px);
+  }
+  40% {
+    transform: translateY(-280px);
+  }
+  60% {
+    transform: translateY(-440px);
+  }
+  80% {
+    transform: translateY(-600px);
+  }
+  100% {
+    transform: translateY(-720px);
+  }
+}
+
+/* Responsive */
+/*
+@media (max-width: 768px) {
+  .slot-machine {
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .slot-column {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--spacing-md);
+  }
+
+  .slot-track {
+    width: 70px;
+    height: 70px;
+  }
+
+  .slot-item {
+    width: 50px;
+    height: 50px;
+  }
+
+  .snackbox-image {
+    max-width: 150px;
+  }
+
+  .selected-snacks {
+    gap: var(--spacing-md);
+  }
+
+  .result-item {
+    min-width: 100px;
+    padding: var(--spacing-sm);
+  }
+
+  .result-item p {
+    font-size: 0.8rem;
+  }
+
+  .intro-text {
+    font-size: 1rem;
+  }
+} */
