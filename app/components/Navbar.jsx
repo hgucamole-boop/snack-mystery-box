@@ -22,6 +22,10 @@ export function Navbar() {
             style={{ color: '#FF2E63', fontWeight: 'bold', border: '1px solid #FF2E63', padding: '6px 12px' }}>
             🎰 Lucky Drop
           </Link>
+          <Link href="/gacha" className={`nav-link ${pathname === '/drop' ? 'active' : ''}`}
+            style={{ color: '#FF2E63', fontWeight: 'bold', border: '1px solid #FF2E63', padding: '6px 12px' }}>
+            🎰 Lucky Drop 2
+          </Link>
           <Link href="/sustainability" className={`nav-link ${pathname === '/sustainability' ? 'active' : ''}`}>
             Our Story
           </Link>

@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Archivo+Black&display=swap');
+
+/* ── KEYFRAMES ───────────────────────────────────────────────────────────────── */
+
+@keyframes titleFlicker {
+  0%,100% { filter: drop-shadow(0 0 28px rgba(255,46,99,.6)); }
+  45%     { filter: drop-shadow(0 0 55px rgba(255,215,0,.8)) drop-shadow(0 0 80px rgba(255,46,99,.3)); }
+  50%     { filter: drop-shadow(0 0 18px rgba(0,217,255,.5)); }
+}
+
+@keyframes particleDrift {
+  0%   { opacity: 0; transform: translateY(100vh) rotate(0deg); }
+  8%   { opacity: .35; }
+  92%  { opacity: .2; }
+  100% { opacity: 0; transform: translateY(-80px) rotate(720deg); }
+}
+
+@keyframes mBlink {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: .25; transform: scale(.8); }
+}
+
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes spinBtn {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-2px); }
+  75%     { transform: translateX(2px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes floatBadge {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50%     { transform: translateY(-6px) rotate(2deg); }
+}
+
+@keyframes rarityPulse {
+  0%,100% { opacity: .7; }
+  50%     { opacity: 1; }
+}
+
+@keyframes snackReveal {
+  from { opacity: 0; transform: scale(.5) rotate(-8deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes jackpotFlash {
+  0%   { opacity: .6; }
+  100% { opacity: 0; }
+}
+
+@keyframes legendaryFlash {
+  0%,20%,40%,60%,80%,100% { opacity: .8; }
+  10%,30%,50%,70%,90%     { opacity: 0; }
+}
+
+@keyframes reelWinPulse {
+  0%,100% { border-color: #FFD700; box-shadow: 0 0 20px rgba(255,215,0,.5); }
+  50%     { border-color: #FF2E63; box-shadow: 0 0 50px rgba(255,215,0,.9), 0 0 80px rgba(255,46,99,.4); }
+}
+
+@keyframes legendaryWinPulse {
+  0%,100% { box-shadow: 0 0 30px rgba(255,175,0,.8), 0 0 60px rgba(255,46,99,.4); }
+  50%     { box-shadow: 0 0 60px rgba(255,215,0,1), 0 0 120px rgba(155,48,255,.6); }
+}
+
+/* ── UTILITY CLASSES ─────────────────────────────────────────────────────────── */
+
+.casino-title-flicker   { animation: titleFlicker 4s ease-in-out infinite; }
+.casino-float-badge     { animation: floatBadge 3s ease-in-out infinite; }
+.casino-rarity-pulse    { animation: rarityPulse 2s ease-in-out infinite; }
+.casino-snack-reveal    { animation: snackReveal .5s cubic-bezier(.34,1.56,.64,1) both; }
+.casino-jackpot-flash   { animation: jackpotFlash .5s ease-out forwards; }
+.casino-legendary-flash { animation: legendaryFlash 1.2s ease-out forwards; }
+
+/* ── SHIMMER TEXT ────────────────────────────────────────────────────────────── */
+
+.casino-shimmer-text {
+  background: linear-gradient(90deg, #FF2E63 0%, #FFD700 30%, #00D9FF 50%, #FFD700 70%, #FF2E63 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ── REEL SCANLINES ──────────────────────────────────────────────────────────── */
+
+.casino-scanlines {
+  position: relative;
+}
+
+.casino-scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,.12) 3px,
+    rgba(0,0,0,.12) 4px
+  );
+  pointer-events: none;
+  z-index: 20;
+  border-radius: inherit;
+}
+
+/* ── BACKGROUND GRID ─────────────────────────────────────────────────────────── */
+
+.casino-grid-bg {
+  background-image:
+    linear-gradient(rgba(0,217,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,217,255,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at 50% 100%, black 10%, transparent 70%);
+}
