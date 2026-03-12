@@ -10,12 +10,6 @@ export function SignupSection({ selectedPlan }) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Track signup event
-    trackEvent('subscription_signup', {
-      plan: selectedPlan,
-      email: email
-    });
-
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     alert(`Thanks for subscribing to the ${selectedPlan} plan! We'll send confirmation to ${email}`);
@@ -38,7 +32,17 @@ export function SignupSection({ selectedPlan }) {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <button type="submit" className="submit-btn" disabled={isSubmitting}>
+        <button
+          type="submit"
+          className="submit-btn"
+          disabled={isSubmitting}
+          onClick={() => {
+            trackEvent('subscribe_button_clicked', {
+              plan: selectedPlan,
+              button_text: isSubmitting ? 'SUBSCRIBING...' : 'SUBSCRIBE NOW',
+            });
+          }}
+        >
           {isSubmitting ? 'SUBSCRIBING...' : 'SUBSCRIBE NOW'}
         </button>
       </form>
