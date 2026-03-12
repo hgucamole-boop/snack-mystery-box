@@ -15,9 +15,9 @@ export function Navbar() {
           <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`}>
             Home
           </Link>
-          <Link href="/products" className={`nav-link ${pathname === '/products' ? 'active' : ''}`}>
+          {/* <Link href="/products" className={`nav-link ${pathname === '/products' ? 'active' : ''}`}>
             Collections
-          </Link>
+          </Link> */}
           <Link href="/drop" className={`nav-link ${pathname === '/drop' ? 'active' : ''}`}
             style={{ color: '#FF2E63', fontWeight: 'bold', border: '1px solid #FF2E63', padding: '6px 12px' }}>
             🎰 Lucky Drop
