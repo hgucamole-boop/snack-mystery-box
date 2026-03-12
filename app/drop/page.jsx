@@ -1,5 +1,9 @@
 'use client';
-import Drop from '../../components/drop/Drop';
+import Drop from './Drop';
+import { SnackModalProvider } from './components/SnackModalProvider';
 export default function DropPage() {
-  return <Drop />;
+  return (
+  <SnackModalProvider>
+    <Drop />;
+  </SnackModalProvider>)
 }

@@ -1,10 +1,13 @@
+// this shit is abhorrent. 
+// how do i even salvage this....
+
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import "../gacha.css";
+import "@/styles/gacha.css";
 import { Navbar } from "../components/Navbar";
 import Image from "next/image";
-import { snacks as SNACKS, rarity as RARITY } from "../data/products"
+import { snacks as SNACKS, rarity as RARITY } from "../../data/products"
 
 // ─── CONSTANTS (all deterministic — safe for SSR) ─────────────────────────────
 const CELL_H = 100;

@@ -1,12 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { HeroSection } from './home/components/HeroSection';
-import { FeaturesSection } from './home/components/FeaturesSection';
-import { PricingSection } from './home/components/PricingSection';
-import { SignupSection } from './home/components/SignupSection';
-import { Footer } from './home/components/Footer';
-import { Navbar } from './components/Navbar';
-import { ImpactCounter } from './home/components/ImpactCounter';
+import { HeroSection } from '@/app/home/components/HeroSection';
+import { FeaturesSection } from '@/app/home/components/FeaturesSection';
+import { PricingSection } from '@/app/home/components/PricingSection';
+import { SignupSection } from '@/app/home/components/SignupSection';
+import { Footer } from '@/app/home/components/Footer';
+import { Navbar } from '@/app/components/Navbar';
+import { ImpactCounter } from './components/ImpactCounter';
 
 export default function SnackBoxLanding() {
   const [selectedPlan, setSelectedPlan] = useState('team');

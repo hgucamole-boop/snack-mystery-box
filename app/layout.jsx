@@ -1,5 +1,5 @@
-import './globals.css';
-import { SnackModalProvider } from './components/SnackModalProvider';
+import '@/styles/globals.css';
+
 import GTMProvider from "@/app/components/GTMProvider"
 
 export const metadata = {
@@ -18,9 +18,7 @@ export default function RootLayout({ children }) {
       </head>
       <body style={{ margin: 0, padding: 0 }}>
       <GTMProvider>
-        <SnackModalProvider>
           {children}
-        </SnackModalProvider>
       </GTMProvider>
       </body>
     </html>
