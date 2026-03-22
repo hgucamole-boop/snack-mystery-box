@@ -73,3 +73,11 @@ export const sustainabilityStory = {
   impact: "Together, we're keeping millions of snacks out of landfills while bringing joy to office pantries worldwide."
 };
 
+export const images = {
+  sustainability: {
+    snackRescue: "/images/snackRescue.jpg",
+    delivery: "/images/delivery.jpg",
+    diverted: "/images/diverted.jpg",
+  }
+}
+

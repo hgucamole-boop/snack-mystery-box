@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import {images} from '@/data/constants';
+import Image from 'next/image';
 
 function AnimatedNumber({ end, suffix = '', prefix = '', duration = 2000 }) {
   const [count, setCount] = useState(0);
@@ -42,9 +44,9 @@ function AnimatedNumber({ end, suffix = '', prefix = '', duration = 2000 }) {
 }
 
 const counters = [
-  { label: 'Snacks Saved', end: 48520, suffix: '+', color: 'pink', photoLabel: 'Snack rescue photo' },
-  { label: 'Boxes Delivered', end: 6230, suffix: '+', color: 'cyan', photoLabel: 'Delivery photo' },
-  { label: 'Tonnes Diverted', end: 14, suffix: '.7t', color: 'gold', photoLabel: 'Impact photo' },
+  { label: 'Snacks Saved', end: 48520, suffix: '+', color: 'pink', photoLabel: 'Snack rescue photo', image: images.sustainability.snackRescue },
+  { label: 'Boxes Delivered', end: 6230, suffix: '+', color: 'cyan', photoLabel: 'Delivery photo', image: images.sustainability.delivery },
+  { label: 'Tonnes Diverted', end: 14, suffix: '.7t', color: 'gold', photoLabel: 'Impact photo', image: images.sustainability.diverted },
 ];
 
 export function ImpactCounter() {
@@ -70,18 +72,22 @@ export function ImpactCounter() {
             className="rounded-2xl border border-border bg-card overflow-hidden group hover:border-muted-foreground transition-colors min-h-[26rem]"
           >
             <div
-              className="h-52 md:h-56 border-b border-border/70 border-dashed flex items-center justify-center px-4"
+              className="h-52 md:h-56 border-b border-border/70 border-dashed relative overflow-hidden"
               style={{
                 borderColor: `hsl(var(--${c.color}) / 0.45)`,
                 background: `linear-gradient(160deg, hsl(var(--${c.color}) / 0.22), hsl(var(--${c.color}) / 0.07))`,
-                color: `hsl(var(--${c.color}))`,
               }}
             >
-              <span className="font-body text-sm md:text-base leading-tight tracking-[0.18em] uppercase text-center opacity-85">
-                {c.photoLabel}
-              </span>
+              <Image
+                src={c.image}
+                alt={c.photoLabel}
+                fill
+                className="object-cover saturate-[0.72] brightness-[0.8]"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/36 via-green-500/24 to-lime-400/16 mix-blend-multiply" />
             </div>
-            <div className="text-center p-6 md:p-7">
+            <div className="text-center p-6 md:p-7 bg-gradient-to-b from-card/95 via-card/86 to-card/68">
               <div style={{ color: `hsl(var(--${c.color}))` }}>
                 <AnimatedNumber end={c.end} suffix={c.suffix} />
               </div>

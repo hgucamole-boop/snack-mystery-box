@@ -18,7 +18,6 @@ export default function SnackBoxLanding() {
       <div className="page-content">
         <HeroSection />
         <ImpactCounter />
-        <FeaturesSection />
         <PricingSection selectedPlan={selectedPlan} onSelectPlan={setSelectedPlan} />
         <SignupSection selectedPlan={selectedPlan} />
       </div>
