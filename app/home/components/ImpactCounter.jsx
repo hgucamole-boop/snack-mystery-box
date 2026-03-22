@@ -49,17 +49,17 @@ const counters = [
 
 export function ImpactCounter() {
   return (
-    <section className="py-12 border-t border-b border-border bg-card/30">
+    <section className="py-16 md:py-20 border-t border-b border-border bg-card/35">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mb-8"
+        className="text-center mb-12"
       >
-        <p className="font-body text-xs text-muted-foreground tracking-widest mb-1">OUR IMPACT SO FAR</p>
-        <h2 className="font-display text-2xl gradient-text">FIGHTING FOOD WASTE, ONE BOX AT A TIME</h2>
+        <p className="font-body text-md text-muted-foreground tracking-[0.2em] mb-2">OUR IMPACT SO FAR</p>
+        <h2 className="font-display text-4xl md:text-5xl gradient-text">FIGHTING FOOD WASTE, ONE BOX AT A TIME</h2>
       </motion.div>
-      <div className="max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
         {counters.map((c, i) => (
           <motion.div
             key={c.label}
@@ -67,25 +67,25 @@ export function ImpactCounter() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.15 }}
             viewport={{ once: true }}
-            className="rounded-2xl border border-border bg-card overflow-hidden group hover:border-muted-foreground transition-colors"
+            className="rounded-2xl border border-border bg-card overflow-hidden group hover:border-muted-foreground transition-colors min-h-[26rem]"
           >
             <div
-              className="h-44 md:h-48 border-b border-border/70 border-dashed flex items-center justify-center px-4"
+              className="h-52 md:h-56 border-b border-border/70 border-dashed flex items-center justify-center px-4"
               style={{
                 borderColor: `hsl(var(--${c.color}) / 0.45)`,
                 background: `linear-gradient(160deg, hsl(var(--${c.color}) / 0.22), hsl(var(--${c.color}) / 0.07))`,
                 color: `hsl(var(--${c.color}))`,
               }}
             >
-              <span className="font-body text-xs md:text-sm leading-tight tracking-[0.18em] uppercase text-center opacity-85">
+              <span className="font-body text-sm md:text-base leading-tight tracking-[0.18em] uppercase text-center opacity-85">
                 {c.photoLabel}
               </span>
             </div>
-            <div className="text-center p-5 md:p-6">
+            <div className="text-center p-6 md:p-7">
               <div style={{ color: `hsl(var(--${c.color}))` }}>
                 <AnimatedNumber end={c.end} suffix={c.suffix} />
               </div>
-              <p className="font-body text-sm text-muted-foreground mt-2">{c.label}</p>
+              <p className="font-body text-base text-muted-foreground mt-3">{c.label}</p>
             </div>
           </motion.div>
         ))}

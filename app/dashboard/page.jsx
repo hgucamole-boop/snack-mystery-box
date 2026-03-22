@@ -30,42 +30,42 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0D0D1A', color: '#FFF5E1', fontFamily: 'monospace', padding: '24px' }}>
+    <div className="min-h-screen bg-background text-foreground font-body px-6 py-6">
       
       {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '40px', paddingTop: '40px' }}>
-        <h1 style={{ fontSize: '56px', color: '#FFD700', margin: 0 }}>MY HAUL</h1>
-        <p style={{ color: '#00D9FF' }}>{drops.length} drops opened</p>
+      <div className="text-center mb-10 pt-10">
+        <h1 className="font-display text-5xl md:text-6xl text-gold">MY HAUL</h1>
+        <p className="text-cyan">{drops.length} drops opened</p>
       </div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', maxWidth: '900px', margin: '0 auto 40px' }}>
-        <div style={{ background: '#1A1A2E', border: '1px solid #FFD700', padding: '20px', textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', color: '#FFD700' }}>{drops.length}</div>
-          <div style={{ color: '#999' }}>Total Drops</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-10">
+        <div className="bg-card border border-gold p-5 text-center rounded-lg">
+          <div className="font-display text-3xl text-gold">{drops.length}</div>
+          <div className="text-muted-foreground">Total Drops</div>
         </div>
-        <div style={{ background: '#1A1A2E', border: '1px solid #00D9FF', padding: '20px', textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', color: '#00D9FF' }}>${totalValue.toFixed(2)}</div>
-          <div style={{ color: '#999' }}>Total Value</div>
+        <div className="bg-card border border-cyan p-5 text-center rounded-lg">
+          <div className="font-display text-3xl text-cyan">${totalValue.toFixed(2)}</div>
+          <div className="text-muted-foreground">Total Value</div>
         </div>
-        <div style={{ background: '#1A1A2E', border: '1px solid #FF2E63', padding: '20px', textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', color: '#FF2E63' }}>{rarityCounts['ULTRA'] || 0}</div>
-          <div style={{ color: '#999' }}>Ultra Pulls</div>
+        <div className="bg-card border border-pink p-5 text-center rounded-lg">
+          <div className="font-display text-3xl text-pink">{rarityCounts['ULTRA'] || 0}</div>
+          <div className="text-muted-foreground">Ultra Pulls</div>
         </div>
-        <div style={{ background: '#1A1A2E', border: '1px solid #7B2FBE', padding: '20px', textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', color: '#7B2FBE' }}>{rarityCounts['LEGENDARY'] || 0}</div>
-          <div style={{ color: '#999' }}>Legendaries</div>
+        <div className="bg-card border border-purple p-5 text-center rounded-lg">
+          <div className="font-display text-3xl text-purple">{rarityCounts['LEGENDARY'] || 0}</div>
+          <div className="text-muted-foreground">Legendaries</div>
         </div>
       </div>
 
       {/* Rarity breakdown */}
       {drops.length > 0 && (
-        <div style={{ maxWidth: '900px', margin: '0 auto 40px', background: '#1A1A2E', padding: '20px', border: '1px solid #333' }}>
-          <h3 style={{ color: '#FFD700', marginTop: 0 }}>RARITY BREAKDOWN</h3>
+        <div className="max-w-5xl mx-auto mb-10 bg-card p-5 border border-border rounded-lg">
+          <h3 className="font-display text-gold mt-0 mb-4">RARITY BREAKDOWN</h3>
           {Object.entries(rarityCounts).map(([rarity, count]) => (
-            <div key={rarity} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-              <span style={{ color: rarityColors[rarity], width: '100px' }}>{rarity}</span>
-              <div style={{ flex: 1, background: '#0D0D1A', height: '20px', position: 'relative' }}>
+            <div key={rarity} className="flex items-center gap-3 mb-2">
+              <span className="w-24 text-sm" style={{ color: rarityColors[rarity] }}>{rarity}</span>
+              <div className="flex-1 bg-background h-5 relative rounded-sm overflow-hidden">
                 <div style={{
                   width: `${(count / drops.length) * 100}%`,
                   height: '100%',
@@ -73,41 +73,41 @@ export default function Dashboard() {
                   opacity: 0.7
                 }} />
               </div>
-              <span style={{ color: '#999', width: '30px' }}>{count}</span>
+              <span className="w-8 text-muted-foreground text-sm">{count}</span>
             </div>
           ))}
         </div>
       )}
 
       {/* Drop history */}
-      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <h3 style={{ color: '#FFD700', margin: 0 }}>DROP HISTORY</h3>
+      <div className="max-w-5xl mx-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="font-display text-gold m-0">DROP HISTORY</h3>
           {drops.length > 0 && (
-            <button onClick={clearDrops} style={{ background: 'transparent', border: '1px solid #FF2E63', color: '#FF2E63', padding: '6px 12px', cursor: 'pointer', fontFamily: 'monospace' }}>
+            <button onClick={clearDrops} className="bg-transparent border border-pink text-pink px-3 py-1.5 cursor-pointer">
               CLEAR ALL
             </button>
           )}
         </div>
 
         {drops.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '60px', color: '#555' }}>
-            <p style={{ fontSize: '48px' }}>📦</p>
+          <div className="text-center py-16 text-muted-foreground">
+            <p className="text-5xl">📦</p>
             <p>No drops yet. Go open some cases!</p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gap: '8px' }}>
+          <div className="grid gap-2">
             {[...drops].reverse().map((drop, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '16px', background: '#1A1A2E', padding: '12px 16px', border: '1px solid #333' }}>
-                <img src={drop.image} alt={drop.name} style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ color: '#FFF5E1' }}>{drop.name}</div>
-                  <div style={{ color: '#999', fontSize: '12px' }}>{drop.country} · {new Date(drop.openedAt).toLocaleDateString()}</div>
+              <div key={i} className="flex items-center gap-4 bg-card px-4 py-3 border border-border rounded-lg">
+                <img src={drop.image} alt={drop.name} className="w-12 h-12 object-contain" />
+                <div className="flex-1">
+                  <div className="text-cream">{drop.name}</div>
+                  <div className="text-muted-foreground text-xs">{drop.country} · {new Date(drop.openedAt).toLocaleDateString()}</div>
                 </div>
-                <span style={{ color: rarityColors[drop.rarity], border: `1px solid ${rarityColors[drop.rarity]}`, padding: '2px 8px', fontSize: '12px' }}>
+                <span className="px-2 py-0.5 text-xs border" style={{ color: rarityColors[drop.rarity], borderColor: rarityColors[drop.rarity] }}>
                   {drop.rarity}
                 </span>
-                <span style={{ color: '#FFD700' }}>{drop.value}</span>
+                <span className="text-gold">{drop.value}</span>
               </div>
             ))}
           </div>
@@ -115,11 +115,11 @@ export default function Dashboard() {
       </div>
 
       {/* Actions */}
-      <div style={{ textAlign: 'center', marginTop: '40px', display: 'flex', gap: '16px', justifyContent: 'center' }}>
-        <Link href="/drop" style={{ padding: '12px 32px', background: '#FF2E63', color: 'white', textDecoration: 'none', fontWeight: 'bold' }}>
+      <div className="text-center mt-10 flex gap-4 justify-center flex-wrap">
+        <Link href="/drop" className="px-8 py-3 bg-primary text-white no-underline font-bold rounded">
           🎰 OPEN MORE DROPS
         </Link>
-        <Link href="/" style={{ padding: '12px 32px', border: '1px solid #00D9FF', color: '#00D9FF', textDecoration: 'none' }}>
+        <Link href="/" className="px-8 py-3 border border-cyan text-cyan no-underline rounded">
           🏠 HOME
         </Link>
       </div>

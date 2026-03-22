@@ -18,12 +18,16 @@ export function Navbar() {
           {/* <Link href="/products" className={`nav-link ${pathname === '/products' ? 'active' : ''}`}>
             Collections
           </Link> */}
-          <Link href="/drop" className={`nav-link ${pathname === '/drop' ? 'active' : ''}`}
-            style={{ color: '#FF2E63', fontWeight: 'bold', border: '1px solid #FF2E63', padding: '6px 12px' }}>
+          <Link
+            href="/drop"
+            className={`nav-link ${pathname === '/drop' ? 'active' : ''} !text-primary font-bold border border-primary !px-3 !py-1.5`}
+          >
             🎰 Lucky Drop
           </Link>
-          <Link href="/gacha" className={`nav-link ${pathname === '/drop' ? 'active' : ''}`}
-            style={{ color: '#FF2E63', fontWeight: 'bold', border: '1px solid #FF2E63', padding: '6px 12px' }}>
+          <Link
+            href="/gacha"
+            className={`nav-link ${pathname === '/gacha' ? 'active' : ''} !text-primary font-bold border border-primary !px-3 !py-1.5`}
+          >
             🎰 Lucky Drop 2
           </Link>
           <Link href="/sustainability" className={`nav-link ${pathname === '/sustainability' ? 'active' : ''}`}>

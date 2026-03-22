@@ -1,12 +1,8 @@
-// this shit is abhorrent. 
-// how do i even salvage this....
-
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import "@/styles/gacha.css";
 import { Navbar } from "../components/Navbar";
-import Image from "next/image";
 import { snacks as SNACKS, rarity as RARITY } from "../../data/products"
 
 // ─── CONSTANTS (all deterministic — safe for SSR) ─────────────────────────────
@@ -266,7 +262,6 @@ export default function SnackCasino() {
   const [spinTrigger, setSpinTrigger] = useState(0);
   const [doneCount, setDoneCount] = useState(0);
   const [showResults, setShowResults] = useState(false);
-  const [flashType, setFlashType] = useState(null);
   const [luckPct, setLuckPct] = useState(0);
   const [pendingResults, setPendingResults] = useState(null);
   const completedRef = useRef(false);
@@ -278,9 +273,6 @@ export default function SnackCasino() {
   useEffect(() => {
     if (doneCount === 6 && isSpinning && !completedRef.current) {
       completedRef.current = true;
-      const hasLeg = pendingResults?.some(s => s.rarity === "legendary");
-      setFlashType(hasLeg ? "legendary" : "normal");
-      setTimeout(() => setFlashType(null), 1000);
       setTimeout(() => {
         setResults(pendingResults);
         setShowResults(true);
@@ -314,25 +306,25 @@ export default function SnackCasino() {
   return (
     <>
       {/* Background */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "radial-gradient(ellipse 80% 60% at 15% 10%,rgba(47,133,90,.1) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 90%,rgba(63,143,118,.09) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 50% 50%,rgba(211,168,77,.06) 0%,transparent 70%),#eef7ec" }}>
+      <div className="fixed inset-0 z-0" style={{ background: "radial-gradient(ellipse 80% 60% at 15% 10%,rgba(47,133,90,.1) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 90%,rgba(63,143,118,.09) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 50% 50%,rgba(211,168,77,.06) 0%,transparent 70%),#eef7ec" }}>
         <div className="casino-grid-bg" style={{ position: "absolute", inset: 0 }} />
       </div>
 
       <Particles />
       <Navbar />
 
-      <div style={{ fontFamily: "'Space Mono',monospace", position: "relative", zIndex: 2, minHeight: "100vh", padding: "2rem 1rem 5rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div className="relative z-20 min-h-screen px-4 pt-8 pb-20 flex flex-col items-center font-body">
 
         {/* Header */}
-        <header style={{ textAlign: "center", marginBottom: "1.5rem", marginTop: "100px" }}>
-          <h1 style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(3.5rem,12vw,8rem)", lineHeight: .85, letterSpacing: 4 }}>
+        <header className="text-center mb-6 mt-24">
+          <h1 className="font-display leading-[0.85] tracking-[4px] text-[clamp(3.5rem,12vw,8rem)]">
             <span className="casino-shimmer-text">SNACK<br />PREVIEW</span>
           </h1>
-          <p style={{ fontSize: "clamp(.75rem,2vw,1rem)", color: "rgba(24,52,42,.62)", marginTop: ".75rem", letterSpacing: 1 }}>
-            Check out what's in our drop this month. <span style={{ color: "#2f855a", fontWeight: 700 }}>Preview your box.</span> Every pull is a surprise.
+          <p className="text-[clamp(.75rem,2vw,1rem)] text-foreground/65 mt-3 tracking-wide">
+            Check out what's in our drop this month. <span className="text-primary font-bold">Preview your box.</span> Every pull is a surprise.
           </p>
           {/* Rarity legend */}
-          <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1rem", flexWrap: "wrap" }}>
+          <div className="flex justify-center gap-4 mt-4 flex-wrap">
             {/* {(["common","rare","legendary"]).map(key => {
               const r = RARITY[key];
               return (
@@ -349,16 +341,16 @@ export default function SnackCasino() {
         </header>
 
         {/* Ticker — TICKER_MSGS doubled as a static literal; identical on server and client */}
-        <div style={{ width: "100%", maxWidth: 900, overflow: "hidden", borderTop: "1px solid rgba(47,133,90,.25)", borderBottom: "1px solid rgba(47,133,90,.25)", padding: ".45rem 0", marginBottom: "1.5rem" }}>
-          <div style={{ display: "flex", whiteSpace: "nowrap", animation: "tickerScroll 32s linear infinite", fontSize: ".7rem", letterSpacing: 3, color: "rgba(47,133,90,.65)" }}>
+        <div className="w-full max-w-[900px] overflow-hidden border-y border-primary/25 py-2 mb-6">
+          <div className="flex whitespace-nowrap text-[0.7rem] tracking-[3px] text-primary/70" style={{ animation: "tickerScroll 32s linear infinite" }}>
             {[...TICKER_MSGS, ...TICKER_MSGS].map((t, i) => (
-              <span key={i} style={{ padding: "0 2rem" }}>{t}<span style={{ marginLeft: "2rem", color: "#d3a84d" }}>◆</span></span>
+              <span key={i} className="px-8">{t}<span className="ml-8 text-secondary">◆</span></span>
             ))}
           </div>
         </div>
 
         {/* Machine */}
-        <div style={{ width: "100%", maxWidth: 900 }}>
+        <div className="w-full max-w-[900px]">
           <div style={{ background: "linear-gradient(160deg,#f7fcf5 0%,#edf7ea 50%,#e7f3e3 100%)", border: "2px solid #2f855a", borderRadius: 24, padding: "clamp(1.5rem,4vw,2.5rem) clamp(1rem,3vw,2rem)", position: "relative", boxShadow: "0 0 0 1px rgba(47,133,90,.22),0 18px 42px rgba(31,74,58,.13),inset 0 1px 0 rgba(255,255,255,.65)" }}>
 
             {/* Corner diamonds */}
@@ -371,21 +363,21 @@ export default function SnackCasino() {
             </div>
 
             {/* Marquee lights — Array.from length is a static literal → identical on server & client */}
-            <div style={{ display: "flex", justifyContent: "center", gap: ".5rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
+            <div className="flex justify-center gap-2 mb-6 flex-wrap">
               {Array.from({ length: 28 }, (_, i) => (
                 <div key={i} style={{ width: 10, height: 10, borderRadius: "50%", background: LIGHT_COLS[i % LIGHT_COLS.length], boxShadow: `0 0 4px ${LIGHT_COLS[i % LIGHT_COLS.length]}`, border: "1px solid rgba(255,255,255,.6)", animation: `mBlink 2.2s ${(i * 0.09).toFixed(2)}s infinite` }} />
               ))}
             </div>
 
-            <div style={{ textAlign: "center", fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.3rem", letterSpacing: 4, color: "#2f855a", marginBottom: "1.5rem", textShadow: "0 0 10px rgba(47,133,90,.18)" }}>
+            <div className="text-center font-display text-[1.3rem] tracking-[4px] text-primary mb-6" style={{ textShadow: "0 0 10px rgba(47,133,90,.18)" }}>
               — SPIN TO BUILD YOUR BOX —
             </div>
 
             {/* Reels */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "clamp(.4rem,1.5vw,1rem)", marginBottom: "1.5rem", flexWrap: "wrap" }}>
+            <div className="flex justify-center gap-2 md:gap-4 mb-6 flex-wrap">
               {Array.from({ length: 6 }, (_, i) => (
-                <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".35rem" }}>
-                  <div style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: ".7rem", letterSpacing: 2, color: "#3f8f76", opacity: .78 }}>SLOT {i + 1}</div>
+                <div key={i} className="flex flex-col items-center gap-1.5">
+                  <div className="font-display text-[.7rem] tracking-[2px] text-accent/80">SLOT {i + 1}</div>
                   <Reel
                     reelIdx={i}
                     result={pendingResults?.[i] ?? SNACKS[i]}
@@ -399,20 +391,20 @@ export default function SnackCasino() {
             </div>
 
             {/* Spin button */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
-              <button onClick={spin} disabled={isSpinning} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "clamp(1.3rem,4vw,1.9rem)", letterSpacing: 4, padding: "clamp(.8rem,2vw,1.1rem) clamp(2rem,6vw,4rem)", background: isSpinning ? "linear-gradient(135deg,#2c7d54,#236643)" : "linear-gradient(135deg,#2f855a,#266f49)", color: "#f6fcf4", border: "2px solid #d3a84d", borderRadius: 8, cursor: isSpinning ? "not-allowed" : "pointer", boxShadow: isSpinning ? "0 2px 0 #1f5638,0 4px 12px rgba(47,133,90,.28)" : "0 6px 0 #1f5638,0 8px 20px rgba(47,133,90,.35)", transition: "all .15s ease", textShadow: "0 1px 2px rgba(0,0,0,.2)", animation: isSpinning ? "none" : "none", opacity: isSpinning ? .75 : 1 }}>
+            <div className="flex flex-col items-center gap-4">
+              <button onClick={spin} disabled={isSpinning} className="font-display text-[clamp(1.3rem,4vw,1.9rem)] tracking-[4px] px-8 md:px-16 py-3 border-2 border-secondary rounded-lg text-[#f6fcf4] transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-75" style={{ background: isSpinning ? "linear-gradient(135deg,#2c7d54,#236643)" : "linear-gradient(135deg,#2f855a,#266f49)", boxShadow: isSpinning ? "0 2px 0 #1f5638,0 4px 12px rgba(47,133,90,.28)" : "0 6px 0 #1f5638,0 8px 20px rgba(47,133,90,.35)", textShadow: "0 1px 2px rgba(0,0,0,.2)" }}>
                 {isSpinning ? "SPINNING..." : "PULL THE LEVER"}
               </button>
-              <span style={{ fontSize: ".7rem", color: "rgba(24,52,42,.52)", letterSpacing: 2 }}>
-                SPINS: <span style={{ color: "#2f855a", fontWeight: 700 }}>{spinCount}</span>
+              <span className="text-[.7rem] text-foreground/55 tracking-[2px]">
+                SPINS: <span className="text-primary font-bold">{spinCount}</span>
               </span>
             </div>
 
             {/* Luck meter */}
-            <div style={{ marginTop: "1.5rem" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".4rem" }}>
-                <span style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: ".85rem", letterSpacing: 3, color: "#3f8f76" }}>LUCK METER</span>
-                <span style={{ fontSize: ".7rem", color: "#d3a84d", fontWeight: 700 }}>{luckPct}%</span>
+            <div className="mt-6">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="font-display text-[.85rem] tracking-[3px] text-accent">LUCK METER</span>
+                <span className="text-[.7rem] text-secondary font-bold">{luckPct}%</span>
               </div>
               <div style={{ height: 8, background: "rgba(47,133,90,.12)", borderRadius: 99, overflow: "hidden", border: "1px solid rgba(47,133,90,.28)" }}>
                 <div style={{ height: "100%", width: `${luckPct}%`, background: "linear-gradient(90deg,#3f8f76,#78a64f)", borderRadius: 99, transition: "width .8s cubic-bezier(.34,1.2,.64,1)", boxShadow: "0 0 8px rgba(63,143,118,.35)" }} />
@@ -477,15 +469,13 @@ export default function SnackCasino() {
                 )}
               </div>
             </div>
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "1.5rem", flexWrap: "wrap" }}>
-              <a href="#" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.2rem", letterSpacing: 3, padding: ".85rem 2.5rem", background: "#2f855a", color: "#f8fcf6", border: "2px solid #d3a84d", borderRadius: 6, textDecoration: "none", boxShadow: "4px 4px 0 #3f8f76", transition: "all .2s", display: "inline-block" }}
-                onMouseEnter={e => { e.currentTarget.style.transform = "translate(2px,2px)"; e.currentTarget.style.boxShadow = "2px 2px 0 #3f8f76"; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "4px 4px 0 #3f8f76"; }}
-              >🛒 CLAIM THIS BOX</a>
-              <button onClick={reset} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: "1.2rem", letterSpacing: 3, padding: ".85rem 2rem", background: "transparent", color: "#3f8f76", border: "2px solid #3f8f76", borderRadius: 6, cursor: "pointer", transition: "all .2s" }}
-                onMouseEnter={e => { e.currentTarget.style.background = "rgba(63,143,118,.1)"; }}
-                onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
-              >↺ SPIN AGAIN</button>
+            <div className="flex gap-4 justify-center mt-6 flex-wrap">
+              <a href="#" className="font-display text-[1.2rem] tracking-[3px] py-3.5 px-10 bg-primary text-[#f8fcf6] border-2 border-secondary rounded-md no-underline shadow-[4px_4px_0_#3f8f76] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_#3f8f76] transition-all">
+                🛒 CLAIM THIS BOX
+              </a>
+              <button onClick={reset} className="font-display text-[1.2rem] tracking-[3px] py-3.5 px-8 bg-transparent text-accent border-2 border-accent rounded-md cursor-pointer transition-colors hover:bg-accent/10">
+                ↺ SPIN AGAIN
+              </button>
             </div>
           </div>
         </div>
