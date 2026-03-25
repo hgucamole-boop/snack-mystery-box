@@ -8,6 +8,7 @@ import { SignupSection } from '@/app/home/components/SignupSection';
 import { Footer } from '@/app/home/components/Footer';
 import { Navbar } from '@/app/components/Navbar';
 import { ImpactCounter } from './components/ImpactCounter';
+import { SnacksSection } from './components/SnacksSection';
 
 export default function SnackBoxLanding() {
   const [selectedPlan, setSelectedPlan] = useState('team');
@@ -18,6 +19,7 @@ export default function SnackBoxLanding() {
       <div className="page-content">
         <HeroSection />
         <ImpactCounter />
+        <SnacksSection />
         <PricingSection selectedPlan={selectedPlan} onSelectPlan={setSelectedPlan} />
         <SignupSection selectedPlan={selectedPlan} />
       </div>
