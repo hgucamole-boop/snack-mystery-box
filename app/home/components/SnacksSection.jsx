@@ -74,7 +74,8 @@ export function SnacksSection() {
       <div className="snacks-header">
         <div>
           <p className="snacks-eyebrow">In Stock Now</p>
-          <h2 className="section-title">Discover Our Collection</h2>
+          <h2 className="section-title" style={{marginBottom: "1rem"}}>Discover Our Collection</h2>
+          <p className="snacks-subtitle">Explore our carefully curated selection of international snacks and hidden gems in stock this month. From common favorites to rare finds, there's something for everyone.</p>
         </div>
       </div>
 
