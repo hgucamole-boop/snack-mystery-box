@@ -2,38 +2,50 @@
 export function HeroSection() {
   return (
     <section className="hero">
-      <div className="floating-items">
-        <span className="float-item">🍫</span>
-        <span className="float-item">🥤</span>
-        <span className="float-item">🍪</span>
-        <span className="float-item">🍬</span>
-        <span className="float-item">🧃</span>
+      <div className="hero-ambient" aria-hidden="true">
+        <span className="hero-blob hero-blob-left" />
+        <span className="hero-blob hero-blob-right" />
       </div>
 
       <div className="hero-content">
         <div className="hero-copy">
           <div className="logo">Mari Makan</div>
           <h1 className="hero-title">
-            DISCOVER.<br />
-            SAVE.<br />
-            SNACK.
+            UNBOX <br />
+            PURE <br />
+            CURIOSITY.
           </h1>
           <p className="hero-subtitle">
-            Monthly fun boxes of <span className="highlight">rare imported snacks</span> and drinks
-            at 40-60% off. Zero hunting. Pure discovery. Delivered to your office doorstep.
+            The monthly adventure for your tastebuds. Hand-picked, hard-to-find global snacks delivered to your door in a box of pure mystery.
           </p>
-          <a href="#pricing" className="cta-button">
-            START EXPLORING
-          </a>
+          <div className="hero-actions">
+            <a href="#pricing" className="cta-button">
+              START YOUR JOURNEY
+            </a>
+            <a href="#pricing" className="cta-button secondary">
+              HOW IT WORKS
+            </a>
+          </div>
         </div>
 
-        <div className="hero-photo-wrap" aria-hidden="true">
+        <div className="hero-photo-wrap">
           <div className="hero-photo-frame">
             <img
               src="/images/snackRescue.jpg"
-              alt=""
+              alt="A curated Mari Makan snack box with international treats"
               className="hero-photo"
             />
+            <div className="hero-photo-overlay" />
+          </div>
+          <div className="hero-floating-badge" aria-hidden="true">
+            <span className="hero-badge-icon">★</span>
+          </div>
+          <div className="hero-floating-note">
+            <div className="hero-note-icon">→</div>
+            <div>
+              <p className="hero-note-title">Curated Worldwide</p>
+              <p className="hero-note-subtitle">Rare snacks from 20+ countries</p>
+            </div>
           </div>
         </div>
       </div>
