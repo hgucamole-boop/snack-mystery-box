@@ -3,14 +3,17 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import '@/styles/drop2.css';
 import { snacks as SNACKS } from '@/data/products';
+import { plans } from '@/data/constants';
+import { Navbar } from '@/app/components/Navbar';
 
 const BOX_PRICE = 19.99;
 const ROLL_ITEM_H = 112;
 const ROLL_WINDOW_H = 340;
 const RESULT_IDX = 22;
+const ROLL_COLUMNS = 6;
 
-function chunkSelection(items) {
-  return items.slice(0, 6);
+function chunkSelection(items, count = ROLL_COLUMNS) {
+  return items.slice(0, count);
 }
 
 function pickRandomSelection(items, count = 6) {
@@ -18,15 +21,24 @@ function pickRandomSelection(items, count = 6) {
   return shuffled.slice(0, count);
 }
 
-function calcValue(items) {
-  return items.reduce((sum, item) => sum + item.numericValue * item.multiple, 0);
+function calcValue(items, unitMultiplier) {
+  return items.reduce((sum, item) => sum + item.numericValue * item.multiple * unitMultiplier, 0);
+}
+
+function shuffleItems(items) {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
 function buildColumns(items, count = 6) {
-  return Array.from({ length: count }, (_, idx) => {
-    const offset = idx % items.length;
-    const rotated = [...items.slice(offset), ...items.slice(0, offset)];
-    return [...rotated, ...rotated];
+  return Array.from({ length: count }, () => {
+    const firstPass = shuffleItems(items);
+    const secondPass = shuffleItems(items);
+    return [...firstPass, ...secondPass];
   });
 }
 
@@ -43,12 +55,14 @@ function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpinning, i
   const stripRef = useRef(null);
   const animRef = useRef(null);
   const [strip, setStrip] = useState([]);
+  const isIdle = !isSpinning && spinTrigger === 0;
 
   useEffect(() => {
-    // Deterministic initial content before any spin.
-    const fallbackTail = items.find((item) => item.id !== target.id) ?? target;
-    setStrip([...items.slice(0, RESULT_IDX), target, fallbackTail]);
-  }, [items, target]);
+    if (spinTrigger === 0) {
+      // Before first spin, keep a long repeated strip for smooth idle scrolling.
+      setStrip([...items, ...items]);
+    }
+  }, [items, spinTrigger]);
 
   useEffect(() => {
     if (spinTrigger === 0) return;
@@ -104,7 +118,11 @@ function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpinning, i
       className={`drop2-roller-window ${isSpinning && !isSettled ? 'spinning' : ''} ${isSettled ? 'settled' : ''}`.trim()}
     >
       <div className="drop2-roller-payline" />
-      <div ref={stripRef} className="drop2-roller-track">
+      <div
+        ref={stripRef}
+        className={`drop2-roller-track ${isIdle ? 'idle' : ''}`.trim()}
+        style={isIdle ? { animationDuration: `${42 + reelIdx * 4}s` } : undefined}
+      >
         {strip.map((item, itemIdx) => (
           <div
             key={`${item.id}-${reelIdx}-${itemIdx}`}
@@ -119,17 +137,28 @@ function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpinning, i
 }
 
 export default function Drop2Page() {
-  const initialSelection = useMemo(() => chunkSelection(SNACKS), []);
+  const boxOptions = useMemo(
+    () => plans.map((plan) => ({ id: plan.id, name: plan.name, unitMultiplier: plan.unitMultiplier || 1 })),
+    [],
+  );
+  const [selectedBoxId, setSelectedBoxId] = useState('team');
+  const selectedBox = useMemo(
+    () => boxOptions.find((box) => box.id === selectedBoxId) || boxOptions[0],
+    [boxOptions, selectedBoxId],
+  );
+  const unitMultiplier = selectedBox?.unitMultiplier || 1;
+  const initialSelection = useMemo(() => chunkSelection(SNACKS, ROLL_COLUMNS), []);
   const [selection, setSelection] = useState(initialSelection);
   const [pendingSelection, setPendingSelection] = useState(initialSelection);
   const [isSpinning, setIsSpinning] = useState(false);
   const [settledCount, setSettledCount] = useState(0);
   const [spinTrigger, setSpinTrigger] = useState(0);
+  const resultsRef = useRef(null);
 
-  const totalValue = calcValue(selection);
+  const totalValue = calcValue(selection, unitMultiplier);
   const savings = totalValue - BOX_PRICE;
   const savingsPct = totalValue > 0 ? Math.round((savings / totalValue) * 100) : 0;
-  const columns = useMemo(() => buildColumns(SNACKS, 6), []);
+  const columns = useMemo(() => buildColumns(SNACKS, ROLL_COLUMNS), []);
 
   const handleReelDone = useCallback((idx) => {
     setSelection((prev) => {
@@ -140,7 +169,7 @@ export default function Drop2Page() {
 
     setSettledCount((prev) => {
       const next = prev + 1;
-      if (next === 6) setIsSpinning(false);
+      if (next === ROLL_COLUMNS) setIsSpinning(false);
       return next;
     });
   }, [pendingSelection]);
@@ -148,33 +177,34 @@ export default function Drop2Page() {
   const handleGenerate = () => {
     if (isSpinning) return;
 
-    const nextSelection = pickRandomSelection(SNACKS, 6);
+    const nextSelection = pickRandomSelection(SNACKS, ROLL_COLUMNS);
     setPendingSelection(nextSelection);
     setIsSpinning(true);
     setSettledCount(0);
     setSpinTrigger((prev) => prev + 1);
   };
 
+  useEffect(() => {
+    if (!isSpinning && spinTrigger > 0 && settledCount === ROLL_COLUMNS) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [isSpinning, spinTrigger, settledCount]);
+
+  const handleBoxSizeChange = (boxId) => {
+    if (isSpinning) return;
+    setSelectedBoxId(boxId);
+  };
+
   return (
     <div className="drop2-page">
-      <nav className="drop2-nav">
-        <div className="drop2-nav-inner">
-          <div className="drop2-brand">Snack Preview</div>
-          <div className="drop2-links">
-            <a href="#">Discover</a>
-            <a href="#">Boxes</a>
-            <a href="/sustainability">Sustainability</a>
-            <a href="#">About</a>
-          </div>
-          <button className="drop2-pill-btn">Get Started</button>
-        </div>
-      </nav>
+      <Navbar />
 
       <main className="drop2-main">
         <header className="drop2-hero">
           <div className="drop2-hero-badge">Sustainable Discovery</div>
           <h1 className="drop2-title">
-            Preview This Month&apos;s <span>Curated Selection</span>
+            Preview This Month&apos;s 
+            <p><span>Curated Selection</span></p>
           </h1>
           <p className="drop2-subtitle">
             Every box is a unique rescue mission. We curate premium selections from surplus inventory and rescued ingredients to fight food waste while delivering joy to your door.
@@ -182,13 +212,12 @@ export default function Drop2Page() {
           <div className="drop2-chips">
             <span>Rescued Inventory</span>
             <span>Zero Waste Goal</span>
-            <span>Premium Quality</span>
           </div>
         </header>
 
         <section className="drop2-engine">
-          <h2>The Discovery Engine</h2>
-          <p>Six rolling bars reveal a fresh, curated preview from this month&apos;s available snack inventory.</p>
+          <h2>Preview Generator</h2>
+          <p>Take a look at this month's selection of snacks. {selectedBox.name} scales quantity to {unitMultiplier}x units per snack.</p>
 
           <div className="drop2-rollers">
             {columns.map((col, colIdx) => (
@@ -210,12 +239,33 @@ export default function Drop2Page() {
               {isSpinning ? 'Generating...' : 'Generate My Selection'}
             </button>
             <button className="drop2-secondary-btn" onClick={handleGenerate} disabled={isSpinning}>
-              {isSpinning ? `Settling ${settledCount}/6` : 'Preview Another Box'}
+              {isSpinning ? `Settling ${settledCount}/${ROLL_COLUMNS}` : 'Preview Another Box'}
             </button>
           </div>
         </section>
 
-        <section className="drop2-results">
+        <section ref={resultsRef} className="drop2-results-wrap" style={{ marginTop: '6rem' }}>
+          <div className="drop2-results-controls">
+            <h3>Box Size</h3>
+            <div className="drop2-size-selector" role="radiogroup" aria-label="Select box size">
+              {boxOptions.map((box) => (
+                <button
+                  key={box.id}
+                  type="button"
+                  className={`drop2-size-btn ${selectedBoxId === box.id ? 'active' : ''}`}
+                  onClick={() => handleBoxSizeChange(box.id)}
+                  disabled={isSpinning}
+                  aria-checked={selectedBoxId === box.id}
+                  role="radio"
+                >
+                  <span>{box.name}</span>
+                  <strong>{box.unitMultiplier}x units</strong>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="drop2-results">
           {selection.map((item) => (
             <article key={item.id} className="drop2-card">
               <div className="drop2-card-media">
@@ -225,12 +275,13 @@ export default function Drop2Page() {
                 <h3>{item.name}</h3>
                 <p>{item.country} · {item.rarity.toLowerCase()} pick</p>
                 <div className="drop2-card-meta">
-                  <span>{item.multiple} units</span>
-                  <strong>${(item.numericValue * item.multiple).toFixed(2)}</strong>
+                  <span>{item.multiple * unitMultiplier} units</span>
+                  <strong>${(item.numericValue * item.multiple * unitMultiplier).toFixed(2)}</strong>
                 </div>
               </div>
             </article>
           ))}
+          </div>
         </section>
 
         <section className="drop2-savings">

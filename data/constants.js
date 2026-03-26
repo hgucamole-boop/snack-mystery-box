@@ -2,6 +2,7 @@ export const plans = [
   {
     id: 'starter',
     name: 'Starter Crew',
+    unitMultiplier: 1,
     price: '$99.99',
     pax: '5–10 pax',
     perHead: 'As low as $10/head',
@@ -13,6 +14,7 @@ export const plans = [
   {
     id: 'team',
     name: 'Full Squad',
+    unitMultiplier: 2,
     price: '$179.99',
     pax: '10–20 pax',
     perHead: 'As low as $9/head',
@@ -24,6 +26,7 @@ export const plans = [
   {
     id: 'office',
     name: 'Office Legend',
+    unitMultiplier: 3,
     price: '$349.99',
     pax: '30+ pax',
     perHead: 'Bulk savings unlocked',
