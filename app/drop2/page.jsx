@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import '@/styles/drop2.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { snacks as SNACKS } from '@/data/products';
 import { plans } from '@/data/constants';
 import { Navbar } from '@/app/components/Navbar';
+import { SignupInterestModal } from '@/app/drop2/components/SignupInterestModal';
 
-const BOX_PRICE = 19.99;
 const ROLL_ITEM_H = 112;
 const ROLL_WINDOW_H = 340;
 const RESULT_IDX = 22;
@@ -23,6 +25,13 @@ function pickRandomSelection(items, count = 6) {
 
 function calcValue(items, unitMultiplier) {
   return items.reduce((sum, item) => sum + item.numericValue * item.multiple * unitMultiplier, 0);
+}
+
+function parsePrice(price) {
+  if (typeof price === 'number') return price;
+  const normalized = String(price || '').replace(/[^0-9.]/g, '');
+  const parsed = Number.parseFloat(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
 function shuffleItems(items) {
@@ -138,7 +147,15 @@ function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpinning, i
 
 export default function Drop2Page() {
   const boxOptions = useMemo(
-    () => plans.map((plan) => ({ id: plan.id, name: plan.name, unitMultiplier: plan.unitMultiplier || 1 })),
+    () => plans.map((plan) => ({
+      id: plan.id,
+      name: plan.name,
+      pax: plan.pax,
+      emoji: plan.emoji,
+      popular: plan.popular,
+      price: plan.price,
+      unitMultiplier: plan.unitMultiplier || 1,
+    })),
     [],
   );
   const [selectedBoxId, setSelectedBoxId] = useState('team');
@@ -147,16 +164,19 @@ export default function Drop2Page() {
     [boxOptions, selectedBoxId],
   );
   const unitMultiplier = selectedBox?.unitMultiplier || 1;
+  const boxPrice = parsePrice(selectedBox?.price);
   const initialSelection = useMemo(() => chunkSelection(SNACKS, ROLL_COLUMNS), []);
   const [selection, setSelection] = useState(initialSelection);
   const [pendingSelection, setPendingSelection] = useState(initialSelection);
   const [isSpinning, setIsSpinning] = useState(false);
   const [settledCount, setSettledCount] = useState(0);
   const [spinTrigger, setSpinTrigger] = useState(0);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [signupEmail, setSignupEmail] = useState('');
   const resultsRef = useRef(null);
 
   const totalValue = calcValue(selection, unitMultiplier);
-  const savings = totalValue - BOX_PRICE;
+  const savings = totalValue - boxPrice;
   const savingsPct = totalValue > 0 ? Math.round((savings / totalValue) * 100) : 0;
   const columns = useMemo(() => buildColumns(SNACKS, ROLL_COLUMNS), []);
 
@@ -195,6 +215,15 @@ export default function Drop2Page() {
     setSelectedBoxId(boxId);
   };
 
+  const handleSignupSubmit = (event) => {
+    event.preventDefault();
+    if (!signupEmail.trim()) return;
+
+    setIsSignupOpen(false);
+    setSignupEmail('');
+    toast.success('You have registered your interest in our service.');
+  };
+
   return (
     <div className="drop2-page">
       <Navbar />
@@ -217,7 +246,7 @@ export default function Drop2Page() {
 
         <section className="drop2-engine">
           <h2>Preview Generator</h2>
-          <p>Take a look at this month's selection of snacks. {selectedBox.name} scales quantity to {unitMultiplier}x units per snack.</p>
+          <p>Take a look at this month's selection of snacks. Box size changes the quantity per snack in your final box.</p>
 
           <div className="drop2-rollers">
             {columns.map((col, colIdx) => (
@@ -258,8 +287,9 @@ export default function Drop2Page() {
                   aria-checked={selectedBoxId === box.id}
                   role="radio"
                 >
-                  <span>{box.name}</span>
-                  <strong>{box.unitMultiplier}x units</strong>
+                  <span className="drop2-size-emoji">{box.emoji}</span>
+                  <span className="drop2-size-name">{box.name}</span>
+                  <span className="drop2-size-pax">{box.pax}</span>
                 </button>
               ))}
             </div>
@@ -291,7 +321,7 @@ export default function Drop2Page() {
           </div>
           <div>
             <p>You Pay</p>
-            <h4>${BOX_PRICE.toFixed(2)}</h4>
+            <h4>${boxPrice.toFixed(2)}</h4>
           </div>
           <div>
             <p>You Save</p>
@@ -299,16 +329,31 @@ export default function Drop2Page() {
           </div>
         </section>
 
-        <section className="drop2-trust">
-          <div>
-            <h5>Fighting Food Waste</h5>
-            <p>Every preview reflects inventory that helps reduce unnecessary waste.</p>
-          </div>
-          <div>
-            <h5>Affordable Discovery</h5>
-            <p>Surplus sourcing keeps quality high and prices friendlier.</p>
-          </div>
+
+        <section className="drop2-signup-cta">
+          <h3>Interested? Sign up here!</h3>
+          <p>Pick a plan, lock in your monthly box, and we will handle the tasty surprises.</p>
+          <button type="button" className="drop2-signup-btn" onClick={() => setIsSignupOpen(true)}>Sign Up</button>
         </section>
+
+        <SignupInterestModal
+          isOpen={isSignupOpen}
+          email={signupEmail}
+          onEmailChange={setSignupEmail}
+          onClose={() => setIsSignupOpen(false)}
+          onSubmit={handleSignupSubmit}
+        />
+
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2600}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </main>
     </div>
   );
