@@ -15,7 +15,9 @@ export function PricingCard({ plan, isSelected, onSelect }) {
       <hr className="plan-divider" />
       <p className="plan-desc">{plan.description}</p>
       <button
+        type="button"
         className={`select-plan-btn ${isSelected ? 'selected' : ''}`}
+        onClick={() => onSelect(plan.id)}
       >
         {isSelected ? '✓ SELECTED' : 'SELECT PLAN'}
       </button>

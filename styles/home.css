@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6rem 1rem 5rem;
+  padding: 4.5rem 1rem 5rem;
   text-align: left;
   z-index: 1;
   width: 100%;
@@ -242,10 +242,17 @@
   border-color: var(--primary);
 }
 
+.hero-cta {
+  font-size: 1.45rem;
+  font-weight: 700;
+  padding: 1.15rem 2.2rem;
+  letter-spacing: 2px;
+}
+
 @media (max-width: 900px) {
   .hero {
     text-align: center;
-    padding-top: 4.6rem;
+    padding-top: 3.8rem;
   }
 
   .hero-content {
@@ -392,17 +399,35 @@
 }
 
 .impact-card {
+  position: relative;
   border: 2px solid rgba(63, 143, 118, 0.25);
   background: rgba(255, 255, 255, 0.72);
   overflow: hidden;
   min-height: 25rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transform-origin: center;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.42s ease, border-color 0.32s ease;
+}
+
+.impact-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-35%);
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0) 28%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0) 72%);
+  transition: opacity 0.22s ease, transform 0.52s ease;
 }
 
 .impact-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-12px) scale(1.015);
   border-color: rgba(211, 168, 77, 0.55);
-  box-shadow: 0 16px 34px rgba(24, 52, 42, 0.15);
+  box-shadow: 0 24px 46px rgba(24, 52, 42, 0.2);
+}
+
+.impact-card:hover::after {
+  opacity: 1;
+  transform: translateX(35%);
 }
 
 .impact-image-wrap {
@@ -415,6 +440,7 @@
 .impact-image {
   object-fit: cover;
   filter: saturate(0.75) brightness(0.85);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
 }
 
 .impact-image-overlay {
@@ -423,12 +449,15 @@
   inset: 0;
   background: linear-gradient(130deg, rgba(47, 133, 90, 0.35), rgba(76, 155, 82, 0.2), rgba(211, 168, 77, 0.15));
   mix-blend-mode: multiply;
+  opacity: 0.82;
+  transition: opacity 0.35s ease, transform 0.45s ease;
 }
 
 .impact-card-content {
   text-align: center;
   padding: 1.7rem 1.25rem 1.8rem;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(243, 249, 241, 0.8));
+  transition: transform 0.35s ease;
 }
 
 .impact-number {
@@ -439,12 +468,33 @@
   font-family: 'Archivo Black', sans-serif;
   font-size: clamp(2.1rem, 4vw, 3.1rem);
   line-height: 1;
+  display: inline-block;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.32s ease;
 }
 
 .impact-label {
   margin-top: 0.85rem;
   font-size: 1rem;
   color: rgba(24, 52, 42, 0.75);
+}
+
+.impact-card:hover .impact-image {
+  transform: scale(1.08) rotate(-1deg);
+  filter: saturate(0.95) brightness(0.92);
+}
+
+.impact-card:hover .impact-image-overlay {
+  opacity: 1;
+  transform: translateY(-8px);
+}
+
+.impact-card:hover .impact-card-content {
+  transform: translateY(-4px);
+}
+
+.impact-card:hover .impact-number-value {
+  transform: scale(1.06);
+  text-shadow: 0 8px 20px rgba(24, 52, 42, 0.2);
 }
 
 .pricing {
@@ -634,6 +684,11 @@
   text-align: center;
   border-top: 2px solid rgba(63, 143, 118, 0.12);
   animation: scrollFadeIn 1s ease-out;
+}
+
+.signup-section .hero-subtitle {
+  margin: 0 auto;
+  text-align: center;
 }
 
 .signup-form {

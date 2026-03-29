@@ -19,11 +19,8 @@ export function HeroSection() {
             The snack box that turns food waste into adventures. Curated from surplus, supply your pantries and events with treats and hidden gems from local markets. 
           </p>
           <div className="hero-actions">
-            <a href="/drop2" className="cta-button">
-              START YOUR JOURNEY
-            </a>
-            <a href="/sustainability" className="cta-button secondary">
-              HOW IT WORKS
+            <a href="/drop2" className="cta-button hero-cta">
+              TRY IT OUT
             </a>
           </div>
         </div>
