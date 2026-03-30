@@ -134,7 +134,7 @@ export default function GachaPage() {
           />
         </aside>
 
-        <main className="gacha-main">
+        <main className="gacha-main" style={{paddingTop: '0.5rem'}}>
           <GachaHero />
 
           <GachaPreviewEngine
@@ -153,11 +153,13 @@ export default function GachaPage() {
             selectedBoxId={selectedBoxId}
             onBoxSizeChange={handleBoxSizeChange}
             isSpinning={isSpinning}
+            hasPulls={pullHistory.length > 0}
             selection={selection}
             unitMultiplier={unitMultiplier}
           />
 
           <GachaSavingsSection
+            hasPulls={pullHistory.length > 0}
             totalValue={totalValue}
             boxPrice={boxPrice}
             savings={savings}

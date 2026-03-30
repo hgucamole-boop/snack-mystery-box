@@ -6,9 +6,12 @@ export function GachaResultsSection({
   selectedBoxId,
   onBoxSizeChange,
   isSpinning,
+  hasPulls,
   selection,
   unitMultiplier,
 }) {
+  const placeholderCount = selection.length || 6;
+
   return (
     <section ref={resultsRef} className="gacha-results-wrap" style={{ marginTop: '6rem' }}>
       <div className="gacha-results-controls">
@@ -33,21 +36,37 @@ export function GachaResultsSection({
       </div>
 
       <div className="gacha-results">
-        {selection.map((item) => (
-          <article key={item.id} className="gacha-card">
-            <div className="gacha-card-media">
-              <img src={item.image} alt={item.name} />
-            </div>
-            <div className="gacha-card-body">
-              <h3>{item.name}</h3>
-              <p>{item.country} · {item.rarity.toLowerCase()} pick</p>
-              <div className="gacha-card-meta">
-                <span>{item.multiple * unitMultiplier} units</span>
-                <strong>${(item.numericValue * item.multiple * unitMultiplier).toFixed(2)}</strong>
+        {!hasPulls &&
+          Array.from({ length: placeholderCount }).map((_, idx) => (
+            <article key={`placeholder-${idx}`} className="gacha-card gacha-card-placeholder" aria-hidden="true">
+              <div className="gacha-card-media gacha-skeleton-block" />
+              <div className="gacha-card-body">
+                <div className="gacha-skeleton-line gacha-skeleton-title" />
+                <div className="gacha-skeleton-line gacha-skeleton-subtitle" />
+                <div className="gacha-card-meta">
+                  <span className="gacha-skeleton-line gacha-skeleton-meta" />
+                  <span className="gacha-skeleton-line gacha-skeleton-meta" />
+                </div>
               </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          ))}
+
+        {hasPulls &&
+          selection.map((item) => (
+            <article key={item.id} className="gacha-card">
+              <div className="gacha-card-media">
+                <img src={item.image} alt={item.name} />
+              </div>
+              <div className="gacha-card-body">
+                <h3>{item.name}</h3>
+                <p>{item.country} · {item.rarity.toLowerCase()} pick</p>
+                <div className="gacha-card-meta">
+                  <span>{item.multiple * unitMultiplier} units</span>
+                  <strong>${(item.numericValue * item.multiple * unitMultiplier).toFixed(2)}</strong>
+                </div>
+              </div>
+            </article>
+          ))}
       </div>
     </section>
   );

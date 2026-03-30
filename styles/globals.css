@@ -101,6 +101,9 @@ body {
   border-radius: 6px;
   transition: all 0.3s ease;
   position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 .nav-link:hover {
@@ -111,7 +114,6 @@ body {
 .nav-link.active {
   color: var(--primary);
   background: rgba(47, 133, 90, 0.16);
-  border: 1px solid rgba(47, 133, 90, 0.45);
 }
 
 .nav-link.active::after {
@@ -123,6 +125,98 @@ body {
   width: 20px;
   height: 2px;
   background: var(--primary);
+}
+
+.nav-link-signup {
+  background: linear-gradient(135deg, #2f855a, #3f8f76);
+  color: #f3f9f1;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(47, 133, 90, 0.28);
+}
+
+.nav-link-signup:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #28784f, #377f69);
+  transform: translateY(-1px);
+}
+
+.nav-signup-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(24, 52, 42, 0.45);
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.nav-signup-modal {
+  width: min(560px, 100%);
+  background: #ffffff;
+  border: 2px solid rgba(63, 143, 118, 0.35);
+  border-radius: 1rem;
+  box-shadow: 0 28px 56px rgba(24, 52, 42, 0.28);
+  padding: 1.5rem;
+  position: relative;
+}
+
+.nav-signup-close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(63, 143, 118, 0.32);
+  background: #f1f8f3;
+  color: #214333;
+  cursor: pointer;
+}
+
+.nav-signup-modal h3 {
+  margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  font-size: 2rem;
+  color: #2f855a;
+}
+
+.nav-signup-modal p {
+  margin: 0.5rem 0 1rem;
+  color: rgba(24, 52, 42, 0.82);
+  line-height: 1.5;
+}
+
+.nav-signup-form {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.nav-signup-form input {
+  flex: 1;
+  min-width: 220px;
+  border: 1px solid rgba(63, 143, 118, 0.4);
+  border-radius: 0.65rem;
+  padding: 0.8rem 0.9rem;
+  font-size: 0.95rem;
+}
+
+.nav-signup-form button {
+  border: none;
+  border-radius: 0.65rem;
+  background: #2f855a;
+  color: #ffffff;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+}
+
+.nav-signup-form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .page-content {
@@ -197,6 +291,14 @@ body {
   .nav-link {
     font-size: 0.8rem;
     padding: 0.4rem 0.8rem;
+  }
+
+  .nav-signup-modal {
+    padding: 1.2rem;
+  }
+
+  .nav-signup-modal h3 {
+    font-size: 1.7rem;
   }
 
   .page-content {

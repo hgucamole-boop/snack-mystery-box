@@ -1,6 +1,15 @@
 'use client';
 
-export function GachaSavingsSection({ totalValue, boxPrice, savings, savingsPct }) {
+export function GachaSavingsSection({ hasPulls, totalValue, boxPrice, savings, savingsPct }) {
+  if (!hasPulls) {
+    return (
+      <section className="gacha-savings gacha-savings-empty">
+        <p>Your savings reveal is waiting.</p>
+        <h4>Give the reel a spin to unlock your deal</h4>
+      </section>
+    );
+  }
+
   return (
     <section className="gacha-savings">
       <div>
