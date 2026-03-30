@@ -13,6 +13,8 @@ import { GachaPreviewEngine } from '@/app/gacha/components/GachaPreviewEngine';
 import { GachaResultsSection } from '@/app/gacha/components/GachaResultsSection';
 import { GachaSavingsSection } from '@/app/gacha/components/GachaSavingsSection';
 import { GachaSignupCta } from '@/app/gacha/components/GachaSignupCta';
+import { GachaPullHistorySidebar } from '@/app/gacha/components/GachaPullHistorySidebar';
+import { GachaLivePullsSidebar } from '@/app/gacha/components/GachaLivePullsSidebar';
 import {
   ROLL_COLUMNS,
   chunkSelection,
@@ -50,6 +52,8 @@ export default function GachaPage() {
   const [spinTrigger, setSpinTrigger] = useState(0);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [signupEmail, setSignupEmail] = useState('');
+  const [pullHistory, setPullHistory] = useState([]);
+  const lastLoggedSpinRef = useRef(0);
   const resultsRef = useRef(null);
 
   const totalValue = calcValue(selection, unitMultiplier);
@@ -82,10 +86,25 @@ export default function GachaPage() {
   };
 
   useEffect(() => {
-    if (!isSpinning && spinTrigger > 0 && settledCount === ROLL_COLUMNS) {
+    const spinSettled = !isSpinning && spinTrigger > 0 && settledCount === ROLL_COLUMNS;
+    const isNewSettledSpin = spinTrigger !== lastLoggedSpinRef.current;
+
+    if (spinSettled && isNewSettledSpin) {
+      setPullHistory((prev) => {
+        const nextMonth = prev.length + 1;
+        return [
+          {
+            id: `${spinTrigger}-${nextMonth}`,
+            monthLabel: `Month ${nextMonth}`,
+            selection: pendingSelection,
+          },
+          ...prev,
+        ];
+      });
+      lastLoggedSpinRef.current = spinTrigger;
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [isSpinning, spinTrigger, settledCount]);
+  }, [isSpinning, spinTrigger, settledCount, pendingSelection]);
 
   const handleBoxSizeChange = (boxId) => {
     if (isSpinning) return;
@@ -105,57 +124,72 @@ export default function GachaPage() {
     <div className="gacha-page">
       <Navbar />
 
-      <main className="gacha-main">
-        <GachaHero />
+      <div className="gacha-layout">
+        <aside className="gacha-sidebar gacha-sidebar-left" aria-label="Your pull history">
+          <GachaPullHistorySidebar
+            pullHistory={pullHistory}
+            selectedBoxName={selectedBox?.name || 'Snack Box'}
+            unitMultiplier={unitMultiplier}
+            boxPrice={boxPrice}
+          />
+        </aside>
 
-        <GachaPreviewEngine
-          columns={columns}
-          pendingSelection={pendingSelection}
-          spinTrigger={spinTrigger}
-          onReelDone={handleReelDone}
-          isSpinning={isSpinning}
-          settledCount={settledCount}
-          onGenerate={handleGenerate}
-        />
+        <main className="gacha-main">
+          <GachaHero />
 
-        <GachaResultsSection
-          resultsRef={resultsRef}
-          boxOptions={boxOptions}
-          selectedBoxId={selectedBoxId}
-          onBoxSizeChange={handleBoxSizeChange}
-          isSpinning={isSpinning}
-          selection={selection}
-          unitMultiplier={unitMultiplier}
-        />
+          <GachaPreviewEngine
+            columns={columns}
+            pendingSelection={pendingSelection}
+            spinTrigger={spinTrigger}
+            onReelDone={handleReelDone}
+            isSpinning={isSpinning}
+            settledCount={settledCount}
+            onGenerate={handleGenerate}
+          />
 
-        <GachaSavingsSection
-          totalValue={totalValue}
-          boxPrice={boxPrice}
-          savings={savings}
-          savingsPct={savingsPct}
-        />
+          <GachaResultsSection
+            resultsRef={resultsRef}
+            boxOptions={boxOptions}
+            selectedBoxId={selectedBoxId}
+            onBoxSizeChange={handleBoxSizeChange}
+            isSpinning={isSpinning}
+            selection={selection}
+            unitMultiplier={unitMultiplier}
+          />
 
-        <GachaSignupCta onSignupOpen={() => setIsSignupOpen(true)} />
+          <GachaSavingsSection
+            totalValue={totalValue}
+            boxPrice={boxPrice}
+            savings={savings}
+            savingsPct={savingsPct}
+          />
 
-        <SignupInterestModal
-          isOpen={isSignupOpen}
-          email={signupEmail}
-          onEmailChange={setSignupEmail}
-          onClose={() => setIsSignupOpen(false)}
-          onSubmit={handleSignupSubmit}
-        />
+          <GachaSignupCta onSignupOpen={() => setIsSignupOpen(true)} />
 
-        <ToastContainer
-          position="bottom-right"
-          autoClose={2600}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-      </main>
+          <SignupInterestModal
+            isOpen={isSignupOpen}
+            email={signupEmail}
+            onEmailChange={setSignupEmail}
+            onClose={() => setIsSignupOpen(false)}
+            onSubmit={handleSignupSubmit}
+          />
+
+          <ToastContainer
+            position="bottom-right"
+            autoClose={2600}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </main>
+
+        <aside className="gacha-sidebar gacha-sidebar-right" aria-label="Live pull activity">
+          <GachaLivePullsSidebar snacks={SNACKS} />
+        </aside>
+      </div>
     </div>
   );
 }
