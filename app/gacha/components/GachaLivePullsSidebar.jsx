@@ -1,5 +1,6 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 const fakeUsernames = [
@@ -71,22 +72,32 @@ export function GachaLivePullsSidebar({ snacks }) {
       <p className="gacha-sidebar-subtitle">Players are opening the same snack pool in real time.</p>
 
       <div className="gacha-live-list" role="log" aria-live="polite" aria-label="Recent live pulls">
-        {livePulls.map((pull) => (
-          <article key={pull.id} className="gacha-live-item">
-            <div className={`gacha-live-thumb ${pull.rarityTone}`}>
-              <img src={pull.item.image} alt={pull.item.name} />
-            </div>
+        <AnimatePresence initial={false} mode="popLayout">
+          {livePulls.map((pull) => (
+            <motion.article
+              key={pull.id}
+              className="gacha-live-item"
+              initial={{ opacity: 0, x: 28 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -14, height: 0 }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
+              layout
+            >
+              <div className={`gacha-live-thumb ${pull.rarityTone}`}>
+                <img src={pull.item.image} alt={pull.item.name} />
+              </div>
 
-            <div className="gacha-live-text">
-              <p>{pull.item.name}</p>
-              <span>
-                @{pull.username} · {pull.monthLabel}
-              </span>
-            </div>
+              <div className="gacha-live-text">
+                <p>{pull.item.name}</p>
+                <span>
+                  @{pull.username} · {pull.monthLabel}
+                </span>
+              </div>
 
-            <strong>{pull.item.value}</strong>
-          </article>
-        ))}
+              <strong>{pull.item.value}</strong>
+            </motion.article>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
