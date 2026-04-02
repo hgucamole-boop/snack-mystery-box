@@ -58,8 +58,12 @@ export function GachaResultsSection({
                 <img src={item.image} alt={item.name} />
               </div>
               <div className="gacha-card-body">
-                <h3>{item.name}</h3>
-                <p>{item.country} · {item.rarity.toLowerCase()} pick</p>
+                <div className="gacha-card-header">
+                  <span className={`gacha-rarity-badge ${item.rarity.toLowerCase()}`}>
+                    {item.rarity.toLowerCase()}
+                  </span>
+                  <h3>{item.name}</h3>
+                </div>
                 <div className="gacha-card-meta">
                   <span>{item.multiple * unitMultiplier} units</span>
                   <strong>${(item.numericValue * item.multiple * unitMultiplier).toFixed(2)}</strong>
