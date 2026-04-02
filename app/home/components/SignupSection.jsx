@@ -21,7 +21,7 @@ export function SignupSection({ selectedPlan }) {
 
   return (
     <section id="signup" className="signup-section">
-      <h2 className="section-title" style={{marginBottom: "2rem"}}>Get Started Today</h2>
+      <h2 className="section-title" style={{marginBottom: "1.5rem"}}>Get Started Today</h2>
       <p className="hero-subtitle">
         Join the snack adventure. Your first mystery box ships within 48 hours.
       </p>

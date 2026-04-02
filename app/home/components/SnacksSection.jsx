@@ -52,7 +52,7 @@ const CategoryCard = ({
           background: 'linear-gradient(to right, rgba(4, 51, 38, 0.9), rgba(53, 109, 83, 0.83), rgba(76, 160, 122, 0.75))'
         }}></div>
       )}
-      <div className={`relative p-8 h-full flex flex-col ${sizeClass?.includes('large') || sizeClass?.includes('tall') ? 'justify-between' : 'justify-end'}`}>
+      <div className={`relative p-6 h-full flex flex-col ${sizeClass?.includes('large') || sizeClass?.includes('tall') ? 'justify-between' : 'justify-end'}`}>
         <div>
           <div className={`w-10 h-10 ${iconBgColor} bg-[#2f855a] rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
             <CategoryIcon className={`${iconColor} text-white`} sx={{ fontSize: '1.05rem' }} />
@@ -77,8 +77,8 @@ export function SnacksSection() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   return (
-    <section className="py-28 px-8 max-w-7xl mx-auto">
-      <div className="mb-16">
+    <section className="py-20 px-8 max-w-7xl mx-auto">
+      <div className="mb-12">
         <h2 className="pantry-title mb-4">The Pantry Collection</h2>
         <div className="h-1 w-24 bg-tertiary rounded-full"></div>
       </div>
