@@ -8,8 +8,41 @@ export function chunkSelection(items, count = ROLL_COLUMNS) {
 }
 
 export function pickRandomSelection(items, count = ROLL_COLUMNS) {
-  const shuffled = [...items].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
+  const pool = shuffleItems(items);
+  const selectedIds = new Set();
+
+  const pickOne = (predicate) => {
+    const candidates = pool.filter((item) => predicate(item) && !selectedIds.has(item.id));
+    if (!candidates.length) return null;
+    const picked = candidates[Math.floor(Math.random() * candidates.length)];
+    selectedIds.add(picked.id);
+    return picked;
+  };
+
+  // Ordered guarantees: snack -> drink -> sweet -> coffee/tea -> random -> legendary.
+  const snackPick = pickOne((item) => item.category === 'snack');
+  const drinkPick = pickOne((item) => item.category === 'drink');
+  const sweetPick = pickOne((item) => item.category === 'sweet');
+  const coffeeOrTeaPick = pickOne((item) => item.category === 'coffee_pod' || item.category === 'tea');
+  const legendaryPick = pickOne((item) => item.rarity === 'legendary');
+
+  const remaining = pool.filter((item) => !selectedIds.has(item.id));
+  const randomPick = remaining.shift() || null;
+
+  const ordered = [
+    snackPick,
+    drinkPick,
+    sweetPick,
+    coffeeOrTeaPick,
+    randomPick,
+    legendaryPick,
+  ].filter(Boolean);
+
+  if (ordered.length < count) {
+    ordered.push(...remaining.slice(0, count - ordered.length));
+  }
+
+  return ordered.slice(0, count);
 }
 
 export function calcValue(items, unitMultiplier) {
