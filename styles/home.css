@@ -49,6 +49,18 @@
   animation: slideUp 1s ease-out 0.2s both;
 }
 
+.pantry-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  line-height: 0.95;
+  margin: 0;
+  background: linear-gradient(90deg, #194f35, #2f855a, #d3a84d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 2px 2px 0 rgba(24, 52, 42, 0.14);
+}
+
 .hero-subtitle {
   font-size: clamp(1rem, 1.6vw, 1.3rem);
   max-width: 560px;

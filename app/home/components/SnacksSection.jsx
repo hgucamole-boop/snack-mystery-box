@@ -79,7 +79,7 @@ export function SnacksSection() {
   return (
     <section className="py-28 px-8 max-w-7xl mx-auto">
       <div className="mb-16">
-        <h2 className="font-headline text-4xl font-extrabold text-primary mb-4">The Pantry Collection</h2>
+        <h2 className="pantry-title mb-4">The Pantry Collection</h2>
         <div className="h-1 w-24 bg-tertiary rounded-full"></div>
       </div>
       <div className="bento-grid">

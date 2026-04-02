@@ -78,7 +78,7 @@
   border-radius: 12px;
   overflow: hidden;
   border: 3px solid var(--accent);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.12);
   min-height: 300px;
   display: flex;
   align-items: center;
@@ -86,13 +86,24 @@
   transition: transform 500ms ease;
 }
 
+.story-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .placeholder-image {
   width: 100%;
   height: 300px;
+  display: block;
   object-fit: cover;
   opacity: 1;
   animation: imageFloat 5.8s ease-in-out infinite;
   will-change: transform;
+  transform-origin: center;
 }
 
 .image-placeholder-text {
@@ -158,13 +169,13 @@
 
 @keyframes imageFloat {
   0% {
-    transform: translateY(0px) scale(1);
+    transform: translateY(0px) scale(1.08);
   }
   50% {
-    transform: translateY(-10px) scale(1.01);
+    transform: translateY(-8px) scale(1.08);
   }
   100% {
-    transform: translateY(0px) scale(1);
+    transform: translateY(0px) scale(1.08);
   }
 }
 
