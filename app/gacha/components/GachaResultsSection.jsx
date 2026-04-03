@@ -52,8 +52,8 @@ export function GachaResultsSection({
           ))}
 
         {hasPulls &&
-          selection.map((item) => (
-            <article key={item.id} className="gacha-card">
+          selection.map((item, idx) => (
+            <article key={`gacha-result-${item.id}-${idx}`} className="gacha-card">
               <div className="gacha-card-media">
                 <img src={item.image} alt={item.name} />
               </div>
