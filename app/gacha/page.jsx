@@ -51,6 +51,7 @@ export default function GachaPage() {
   const [settledCount, setSettledCount] = useState(0);
   const [spinTrigger, setSpinTrigger] = useState(0);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isHistorySheetOpen, setIsHistorySheetOpen] = useState(false);
   const [signupEmail, setSignupEmail] = useState('');
   const [pullHistory, setPullHistory] = useState([]);
   const lastLoggedSpinRef = useRef(0);
@@ -60,6 +61,26 @@ export default function GachaPage() {
   const savings = totalValue - boxPrice;
   const savingsPct = totalValue > 0 ? Math.round((savings / totalValue) * 100) : 0;
   const columns = useMemo(() => buildColumns(SNACKS, ROLL_COLUMNS), []);
+  const historyCount = pullHistory.length;
+  const totalSpent = historyCount * boxPrice;
+  const historyValue = pullHistory.reduce((sum, pull) => sum + calcValue(pull.selection, unitMultiplier), 0);
+  const historyProfit = historyValue - totalSpent;
+  const historyRoiPct = totalSpent > 0 ? ((historyValue / totalSpent - 1) * 100) : 0;
+
+  const scrollToResults = useCallback(() => {
+    if (!resultsRef.current || typeof window === 'undefined') return;
+
+    const navOffset = 96;
+    const targetTop = resultsRef.current.getBoundingClientRect().top + window.scrollY - navOffset;
+
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+
+    // Mobile Safari can occasionally ignore one smooth scroll call after layout updates.
+    window.setTimeout(() => {
+      const retryTop = resultsRef.current.getBoundingClientRect().top + window.scrollY - navOffset;
+      window.scrollTo({ top: Math.max(0, retryTop), behavior: 'smooth' });
+    }, 180);
+  }, []);
 
   const handleReelDone = useCallback((idx) => {
     setSelection((prev) => {
@@ -102,9 +123,20 @@ export default function GachaPage() {
         ];
       });
       lastLoggedSpinRef.current = spinTrigger;
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToResults();
     }
-  }, [isSpinning, spinTrigger, settledCount, pendingSelection]);
+  }, [isSpinning, spinTrigger, settledCount, pendingSelection, scrollToResults]);
+
+  useEffect(() => {
+    if (!isHistorySheetOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isHistorySheetOpen]);
 
   const handleBoxSizeChange = (boxId) => {
     if (isSpinning) return;
@@ -136,6 +168,28 @@ export default function GachaPage() {
 
         <main className="gacha-main" style={{paddingTop: '0.5rem'}}>
           <GachaHero />
+
+          <section className="gacha-mobile-history-strip" aria-label="Quick pull performance">
+            <div className="gacha-mobile-history-stat">
+              <p>Profit</p>
+              <strong className={historyProfit >= 0 ? 'positive' : 'negative'}>
+                {historyProfit >= 0 ? '+' : '-'}${Math.abs(historyProfit).toFixed(2)}
+              </strong>
+            </div>
+            <div className="gacha-mobile-history-stat">
+              <p>ROI</p>
+              <strong className={historyRoiPct >= 0 ? 'positive' : 'negative'}>
+                {historyRoiPct >= 0 ? '+' : ''}{historyRoiPct.toFixed(0)}%
+              </strong>
+            </div>
+            <div className="gacha-mobile-history-stat">
+              <p>Months</p>
+              <strong>{historyCount}</strong>
+            </div>
+            <button type="button" className="gacha-mobile-history-btn" onClick={() => setIsHistorySheetOpen(true)}>
+              View History
+            </button>
+          </section>
 
           <GachaPreviewEngine
             columns={columns}
@@ -192,6 +246,33 @@ export default function GachaPage() {
           <GachaLivePullsSidebar snacks={SNACKS} />
         </aside>
       </div>
+
+      {isHistorySheetOpen && (
+        <div className="gacha-mobile-history-sheet" role="dialog" aria-modal="true" aria-label="Your pull history">
+          <button
+            type="button"
+            className="gacha-mobile-history-sheet-backdrop"
+            aria-label="Close pull history"
+            onClick={() => setIsHistorySheetOpen(false)}
+          />
+          <div className="gacha-mobile-history-sheet-panel">
+            <div className="gacha-mobile-history-sheet-head">
+              <h3>Your Pull History</h3>
+              <button type="button" onClick={() => setIsHistorySheetOpen(false)} aria-label="Close history panel">
+                Close
+              </button>
+            </div>
+            <div className="gacha-mobile-history-sheet-body">
+              <GachaPullHistorySidebar
+                pullHistory={pullHistory}
+                selectedBoxName={selectedBox?.name || 'Snack Box'}
+                unitMultiplier={unitMultiplier}
+                boxPrice={boxPrice}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

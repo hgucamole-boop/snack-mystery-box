@@ -9,10 +9,17 @@ import {
 } from '@/app/gacha/utils/gachaHelpers';
 
 export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpinning, isSettled }) {
+  const windowRef = useRef(null);
   const stripRef = useRef(null);
   const animRef = useRef(null);
   const [strip, setStrip] = useState([]);
   const isIdle = !isSpinning && spinTrigger === 0;
+
+  const getReelMetrics = () => {
+    const itemHeight = stripRef.current?.firstElementChild?.getBoundingClientRect().height || ROLL_ITEM_H;
+    const windowHeight = windowRef.current?.getBoundingClientRect().height || ROLL_WINDOW_H;
+    return { itemHeight, windowHeight };
+  };
 
   useEffect(() => {
     if (spinTrigger === 0) {
@@ -32,6 +39,7 @@ export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpin
       const stopDelay = 900 + reelIdx * 420;
       const startTime = performance.now();
       let pos = 0;
+      const { itemHeight, windowHeight } = getReelMetrics();
 
       if (animRef.current) cancelAnimationFrame(animRef.current);
 
@@ -39,17 +47,17 @@ export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpin
         const elapsed = now - startTime;
         const progress = Math.min(1, elapsed / stopDelay);
         const speed = progress > 0.75
-          ? ROLL_ITEM_H * 0.58 * (1 - (progress - 0.75) / 0.25) + ROLL_ITEM_H * 0.03
-          : ROLL_ITEM_H * 0.58;
+          ? itemHeight * 0.58 * (1 - (progress - 0.75) / 0.25) + itemHeight * 0.03
+          : itemHeight * 0.58;
 
         pos += speed;
 
-        const loopAt = (RESULT_IDX - 4) * ROLL_ITEM_H;
+        const loopAt = (RESULT_IDX - 4) * itemHeight;
         if (pos >= loopAt) pos = pos % loopAt;
 
-        if (elapsed >= stopDelay && speed <= ROLL_ITEM_H * 0.05) {
+        if (elapsed >= stopDelay && speed <= itemHeight * 0.05) {
           if (stripRef.current) {
-            const settleAt = RESULT_IDX * ROLL_ITEM_H + (ROLL_ITEM_H / 2) - (ROLL_WINDOW_H / 2);
+            const settleAt = RESULT_IDX * itemHeight + (itemHeight / 2) - (windowHeight / 2);
             stripRef.current.style.transform = `translateY(-${settleAt}px)`;
           }
           onDone(reelIdx);
@@ -71,6 +79,7 @@ export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpin
 
   return (
     <div
+      ref={windowRef}
       className={`gacha-roller-window ${isSpinning && !isSettled ? 'spinning' : ''} ${isSettled ? 'settled' : ''}`.trim()}
     >
       <div className="gacha-roller-payline" />

@@ -83,6 +83,128 @@
   padding: 2rem 1.5rem 4rem;
 }
 
+.gacha-mobile-history-strip,
+.gacha-mobile-history-sheet {
+  display: none;
+}
+
+.gacha-mobile-history-strip {
+  margin: 0.75rem 0 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(6, 67, 43, 0.18);
+  border-radius: 0.9rem;
+  padding: 0.7rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gacha-mobile-history-stat {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.gacha-mobile-history-stat p {
+  margin: 0;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(3, 32, 23, 0.62);
+}
+
+.gacha-mobile-history-stat strong {
+  display: block;
+  margin-top: 0.12rem;
+  font-size: 0.9rem;
+  color: #0a5e3c;
+}
+
+.gacha-mobile-history-stat strong.positive {
+  color: #0f7b4f;
+}
+
+.gacha-mobile-history-stat strong.negative {
+  color: #b14242;
+}
+
+.gacha-mobile-history-btn {
+  border: none;
+  border-radius: 999px;
+  background: #0a6f46;
+  color: #ffffff;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.6rem 0.8rem;
+  white-space: nowrap;
+}
+
+.gacha-mobile-history-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+}
+
+.gacha-mobile-history-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  border: none;
+  background: rgba(3, 32, 23, 0.48);
+}
+
+.gacha-mobile-history-sheet-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: min(85vh, 760px);
+  background: #eafff2;
+  border-radius: 1rem 1rem 0 0;
+  border-top: 1px solid rgba(6, 67, 43, 0.22);
+  box-shadow: 0 -16px 36px rgba(3, 32, 23, 0.24);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gacha-mobile-history-sheet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(6, 67, 43, 0.15);
+  background: rgba(234, 255, 242, 0.96);
+}
+
+.gacha-mobile-history-sheet-head h3 {
+  margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  font-size: 1.3rem;
+  color: #0a5e3c;
+}
+
+.gacha-mobile-history-sheet-head button {
+  border: 1px solid rgba(6, 67, 43, 0.22);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0a5e3c;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.gacha-mobile-history-sheet-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0.85rem;
+}
+
+.gacha-mobile-history-sheet-body .gacha-history-panel {
+  height: 100%;
+}
+
 .gacha-history-panel,
 .gacha-live-panel {
   height: 100%;
@@ -1140,6 +1262,10 @@
 }
 
 @media (max-width: 1024px) {
+  .gacha-mobile-history-strip {
+    display: flex;
+  }
+
   .gacha-rollers {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1162,8 +1288,52 @@
     padding-top: 2.5rem;
   }
 
+  .gacha-mobile-history-strip {
+    margin-top: 0.4rem;
+  }
+
+  .gacha-mobile-history-sheet {
+    display: block;
+  }
+
+  .gacha-engine {
+    padding: 1rem 0.75rem;
+  }
+
   .gacha-rollers {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .gacha-roller-window {
+    height: 250px;
+    border-radius: 0.65rem;
+  }
+
+  .gacha-roller-window::before,
+  .gacha-roller-window::after {
+    height: 34px;
+  }
+
+  .gacha-roller-item {
+    height: 82px;
+    min-height: 82px;
+    padding: 0.12rem;
+  }
+
+  .gacha-roller-item img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .gacha-engine-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gacha-primary-btn,
+  .gacha-secondary-btn {
+    width: 100%;
   }
 
   .gacha-results,
