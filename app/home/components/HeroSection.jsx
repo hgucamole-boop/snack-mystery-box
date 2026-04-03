@@ -28,7 +28,7 @@ export function HeroSection() {
         <div className="hero-photo-wrap">
           <div className="hero-photo-frame">
             <img
-              src="/images/snackRescue.jpg"
+              src="/images/snackBox1.png"
               alt="A curated Mari Makan snack box with international treats"
               className="hero-photo"
             />
