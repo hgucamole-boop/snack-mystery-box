@@ -5,8 +5,11 @@ import { calcValue } from '@/app/gacha/utils/gachaHelpers';
 
 export function GachaPullHistorySidebar({ pullHistory, selectedBoxName, unitMultiplier, boxPrice }) {
   const historyCount = pullHistory.length;
-  const totalSpent = historyCount * boxPrice;
-  const totalValue = pullHistory.reduce((sum, pull) => sum + calcValue(pull.selection, unitMultiplier), 0);
+  const totalSpent = pullHistory.reduce((sum, pull) => sum + (pull.boxPrice ?? boxPrice), 0);
+  const totalValue = pullHistory.reduce(
+    (sum, pull) => sum + calcValue(pull.selection, pull.unitMultiplier ?? unitMultiplier),
+    0,
+  );
   const profit = totalValue - totalSpent;
   const roiPct = totalSpent > 0 ? ((totalValue / totalSpent - 1) * 100) : 0;
   const isPositive = profit >= 0;
@@ -72,12 +75,14 @@ export function GachaPullHistorySidebar({ pullHistory, selectedBoxName, unitMult
               <article key={pull.id} className="gacha-history-item">
                 <div className="gacha-history-item-head">
                   <strong>{pull.monthLabel}</strong>
-                  <span>{selectedBoxName}</span>
+                  <span>{pull.boxName || selectedBoxName}</span>
                 </div>
 
                 {(() => {
-                  const pullValue = calcValue(pull.selection, unitMultiplier);
-                  const savedValue = pullValue - boxPrice;
+                  const pullMultiplier = pull.unitMultiplier ?? unitMultiplier;
+                  const pullBoxPrice = pull.boxPrice ?? boxPrice;
+                  const pullValue = calcValue(pull.selection, pullMultiplier);
+                  const savedValue = pullValue - pullBoxPrice;
 
                   return (
                     <>
@@ -92,7 +97,7 @@ export function GachaPullHistorySidebar({ pullHistory, selectedBoxName, unitMult
 
                       <div className="gacha-history-meta">
                         <span>
-                          {pull.selection.length} picks x{unitMultiplier}
+                          {pull.selection.length} picks x{pullMultiplier}
                         </span>
                         <span className={savedValue >= 0 ? 'positive' : 'negative'}>
                           {savedValue >= 0 ? '+' : '-'}${Math.abs(savedValue).toFixed(2)} saved

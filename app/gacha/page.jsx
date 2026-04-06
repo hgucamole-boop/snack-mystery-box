@@ -63,8 +63,11 @@ export default function GachaPage() {
   const savingsPct = totalValue > 0 ? Math.round((savings / totalValue) * 100) : 0;
   const columns = useMemo(() => buildColumns(SNACKS, ROLL_COLUMNS), []);
   const historyCount = pullHistory.length;
-  const totalSpent = historyCount * boxPrice;
-  const historyValue = pullHistory.reduce((sum, pull) => sum + calcValue(pull.selection, unitMultiplier), 0);
+  const totalSpent = pullHistory.reduce((sum, pull) => sum + (pull.boxPrice ?? boxPrice), 0);
+  const historyValue = pullHistory.reduce(
+    (sum, pull) => sum + calcValue(pull.selection, pull.unitMultiplier ?? unitMultiplier),
+    0,
+  );
   const historyProfit = historyValue - totalSpent;
   const historyRoiPct = totalSpent > 0 ? ((historyValue / totalSpent - 1) * 100) : 0;
 
@@ -119,6 +122,10 @@ export default function GachaPage() {
             id: `${spinTrigger}-${nextMonth}`,
             monthLabel: `Month ${nextMonth}`,
             selection: pendingSelection,
+            boxId: selectedBox?.id,
+            boxName: selectedBox?.name || 'Snack Box',
+            unitMultiplier,
+            boxPrice,
           },
           ...prev,
         ];
@@ -126,7 +133,16 @@ export default function GachaPage() {
       lastLoggedSpinRef.current = spinTrigger;
       scrollToResults();
     }
-  }, [isSpinning, spinTrigger, settledCount, pendingSelection, scrollToResults]);
+  }, [
+    isSpinning,
+    spinTrigger,
+    settledCount,
+    pendingSelection,
+    selectedBox,
+    unitMultiplier,
+    boxPrice,
+    scrollToResults,
+  ]);
 
   useEffect(() => {
     if (!isHistorySheetOpen) return undefined;
