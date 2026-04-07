@@ -1,6 +1,6 @@
 .sustainability {
   position: relative;
-  padding: 6rem 2rem;
+  padding: 3rem 2rem;
   background: linear-gradient(180deg, #f3f9f1 0%, #deeddc 100%);
   z-index: 1;
   animation: scrollFadeIn 1s ease-out;
@@ -20,6 +20,18 @@
   color: rgba(24, 52, 42, 0.85);
   line-height: 1.8;
   margin-top: 1rem;
+}
+
+.sustainability-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(1.8rem, 5.2vw, 4.2rem);
+  line-height: 0.9;
+  margin-bottom: 2rem;
+  background: linear-gradient(130deg, #194f35, #2f855a, #d3a84d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 3px 3px 0 rgba(24, 52, 42, 0.18);
 }
 
 .sustainability-story {
@@ -194,6 +206,11 @@
 }
 
 @media (max-width: 768px) {
+  .sustainability-title {
+    font-size: clamp(2.2rem, 9vw, 3rem);
+    line-height: 0.95;
+  }
+
   .story-step {
     grid-template-columns: 1fr;
     gap: 2rem;

@@ -35,7 +35,7 @@ export function SustainabilitySection() {
   return (
     <section ref={sectionRef} className="sustainability">
       <div className="sustainability-header">
-        <h2 className="section-title" style={{lineHeight: "5rem", marginBottom: "2rem"}}>{sustainabilityStory.title}</h2>
+        <h2 className="section-title sustainability-title">{sustainabilityStory.title}</h2>
         <p className="sustainability-intro">
           {sustainabilityStory.subtitle}
         </p>
