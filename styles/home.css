@@ -264,6 +264,12 @@
   letter-spacing: 2px;
 }
 
+@media (min-width: 901px) {
+  .hero {
+    height: calc(100vh - 6rem);
+  }
+}
+
 @media (max-width: 900px) {
   .hero {
     text-align: center;
