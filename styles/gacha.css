@@ -80,7 +80,11 @@
 .gacha-main {
   flex: 1;
   min-width: 0;
-  padding: 2rem 1.5rem 4rem;
+  padding: 0rem 1.5rem 4rem;
+}
+
+.gacha-hero-preview-section {
+  display: block;
 }
 
 .gacha-mobile-history-strip,
@@ -556,7 +560,7 @@
 
 .gacha-hero {
   text-align: center;
-  padding: 3.5rem 0 2.5rem;
+  padding: 0rem 0 2.5rem;
 }
 
 .gacha-hero-badge {
@@ -574,7 +578,7 @@
 .gacha-title {
   font-family: 'Archivo Black', sans-serif;
   font-size: clamp(3rem, 5vw, 4rem);
-  margin: 0.4rem auto 1rem;
+  margin: 0rem auto 1rem;
   line-height: 0.95;
   letter-spacing: 0.8px;
   background: linear-gradient(130deg, #194f35, #2f855a, #d3a84d);
@@ -769,7 +773,7 @@
 }
 
 .gacha-results-wrap {
-  margin-top: 2.4rem;
+  margin-top: 2rem;
 }
 
 .gacha-results-controls {
@@ -1536,6 +1540,29 @@
 
   .gacha-signup-cta {
     padding: 1.3rem;
+  }
+}
+
+@media (min-width: 1001px) {
+  .gacha-hero-preview-section {
+    height: calc(100vh - 88px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .gacha-hero-preview-section .gacha-hero {
+    padding: 0.75rem 0 0.45rem;
+  }
+
+  .gacha-hero-preview-section .gacha-engine {
+    margin-top: 0;
+    padding: 1rem;
+  }
+
+  .gacha-hero-preview-section .gacha-roller-window {
+    height: 260px;
   }
 }
 

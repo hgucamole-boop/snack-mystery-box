@@ -13,7 +13,7 @@ export function GachaResultsSection({
   const placeholderCount = selection.length || 6;
 
   return (
-    <section ref={resultsRef} className="gacha-results-wrap" style={{ marginTop: '6rem' }}>
+    <section ref={resultsRef} className="gacha-results-wrap">
       <div className="gacha-results-controls">
         <h3>Box Size</h3>
         <div className="gacha-size-selector" role="radiogroup" aria-label="Select box size">

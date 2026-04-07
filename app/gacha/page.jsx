@@ -187,40 +187,42 @@ export default function GachaPage() {
           />
         </aside>
 
-        <main className="gacha-main" style={{paddingTop: '0.5rem'}}>
-          <GachaHero />
+        <main className="gacha-main">
+          <section className="gacha-hero-preview-section">
+            <GachaHero />
 
-          <section className="gacha-mobile-history-strip" aria-label="Quick pull performance">
-            <div className="gacha-mobile-history-stat">
-              <p>Profit</p>
-              <strong className={historyProfit >= 0 ? 'positive' : 'negative'}>
-                {historyProfit >= 0 ? '+' : '-'}${Math.abs(historyProfit).toFixed(2)}
-              </strong>
-            </div>
-            <div className="gacha-mobile-history-stat">
-              <p>ROI</p>
-              <strong className={historyRoiPct >= 0 ? 'positive' : 'negative'}>
-                {historyRoiPct >= 0 ? '+' : ''}{historyRoiPct.toFixed(0)}%
-              </strong>
-            </div>
-            <div className="gacha-mobile-history-stat">
-              <p>Months</p>
-              <strong>{historyCount}</strong>
-            </div>
-            <button type="button" className="gacha-mobile-history-btn" onClick={() => setIsHistorySheetOpen(true)}>
-              View History
-            </button>
+            <section className="gacha-mobile-history-strip" aria-label="Quick pull performance">
+              <div className="gacha-mobile-history-stat">
+                <p>Profit</p>
+                <strong className={historyProfit >= 0 ? 'positive' : 'negative'}>
+                  {historyProfit >= 0 ? '+' : '-'}${Math.abs(historyProfit).toFixed(2)}
+                </strong>
+              </div>
+              <div className="gacha-mobile-history-stat">
+                <p>ROI</p>
+                <strong className={historyRoiPct >= 0 ? 'positive' : 'negative'}>
+                  {historyRoiPct >= 0 ? '+' : ''}{historyRoiPct.toFixed(0)}%
+                </strong>
+              </div>
+              <div className="gacha-mobile-history-stat">
+                <p>Months</p>
+                <strong>{historyCount}</strong>
+              </div>
+              <button type="button" className="gacha-mobile-history-btn" onClick={() => setIsHistorySheetOpen(true)}>
+                View History
+              </button>
+            </section>
+
+            <GachaPreviewEngine
+              columns={columns}
+              pendingSelection={pendingSelection}
+              spinTrigger={spinTrigger}
+              onReelDone={handleReelDone}
+              isSpinning={isSpinning}
+              settledCount={settledCount}
+              onGenerate={handleGenerate}
+            />
           </section>
-
-          <GachaPreviewEngine
-            columns={columns}
-            pendingSelection={pendingSelection}
-            spinTrigger={spinTrigger}
-            onReelDone={handleReelDone}
-            isSpinning={isSpinning}
-            settledCount={settledCount}
-            onGenerate={handleGenerate}
-          />
 
           <GachaResultsSection
             resultsRef={resultsRef}
