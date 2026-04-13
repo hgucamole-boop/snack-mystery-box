@@ -560,10 +560,10 @@
 }
 
 .gacha-roller-qty-tag.large {
-  color: #063a22;
-  background: linear-gradient(140deg, #ffe37f, #f7bf3e);
-  border-color: rgba(95, 78, 11, 0.55);
-  box-shadow: 0 2px 7px rgba(8, 107, 67, 0.28);
+  color: #4f2f00;
+  background: linear-gradient(140deg, #fff3b8, #ffd35a 52%, #f0ab2a);
+  border-color: rgba(120, 87, 0, 0.58);
+  box-shadow: 0 2px 9px rgba(148, 102, 9, 0.34);
 }
 
 .gacha-live-thumb.common,
@@ -580,8 +580,21 @@
 
 .gacha-live-thumb.legendary,
 .gacha-roller-item-surface.legendary {
-  background: rgba(255, 215, 0, 0.14);
-  border: 1px solid rgba(255, 215, 0, 0.5);
+  background:
+    radial-gradient(circle at 24% 22%, rgba(255, 250, 206, 0.72), rgba(255, 228, 119, 0) 40%),
+    linear-gradient(155deg, rgba(255, 238, 142, 0.64), rgba(255, 193, 34, 0.48));
+  border: 1px solid rgba(255, 221, 122, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 240, 0.62), 0 0 0 1px rgba(168, 114, 18, 0.2);
+}
+
+.gacha-roller-item-surface.legendary::before {
+  content: '';
+  position: absolute;
+  inset: -38% -95%;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0) 25%, rgba(255, 252, 220, 0.5) 48%, rgba(255, 255, 255, 0) 70%);
+  transform: translateX(-48%) rotate(8deg);
+  animation: gachaLegendaryShimmer 2.8s linear infinite;
+  pointer-events: none;
 }
 
 .gacha-live-thumb img {
@@ -1538,6 +1551,16 @@
 
   100% {
     background-position: -100% 0;
+  }
+}
+
+@keyframes gachaLegendaryShimmer {
+  0% {
+    transform: translateX(-55%) rotate(8deg);
+  }
+
+  100% {
+    transform: translateX(55%) rotate(8deg);
   }
 }
 
