@@ -222,6 +222,7 @@ export default function GachaPage() {
               isSpinning={isSpinning}
               settledCount={settledCount}
               onGenerate={handleGenerate}
+              unitMultiplier={unitMultiplier}
             />
           </section>
 

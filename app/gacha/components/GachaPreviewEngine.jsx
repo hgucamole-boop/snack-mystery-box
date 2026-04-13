@@ -11,6 +11,7 @@ export function GachaPreviewEngine({
   isSpinning,
   settledCount,
   onGenerate,
+  unitMultiplier,
 }) {
   return (
     <section className="gacha-engine">
@@ -28,6 +29,7 @@ export function GachaPreviewEngine({
             onDone={onReelDone}
             isSpinning={isSpinning}
             isSettled={settledCount > colIdx}
+            unitMultiplier={unitMultiplier}
           />
         ))}
       </div>

@@ -7,8 +7,9 @@ import {
   RESULT_IDX,
   buildStrip,
 } from '@/app/gacha/utils/gachaHelpers';
+import { ReelSnackItem } from './ReelSnackItem';
 
-export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpinning, isSettled }) {
+export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpinning, isSettled, unitMultiplier = 1 }) {
   const windowRef = useRef(null);
   const stripRef = useRef(null);
   const animRef = useRef(null);
@@ -16,7 +17,12 @@ export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpin
   const isIdle = !isSpinning && spinTrigger === 0;
 
   const getReelMetrics = () => {
-    const itemHeight = stripRef.current?.firstElementChild?.getBoundingClientRect().height || ROLL_ITEM_H;
+    const firstItem = stripRef.current?.firstElementChild;
+    const itemRectHeight = firstItem?.getBoundingClientRect().height || ROLL_ITEM_H;
+    const itemStyles = firstItem ? window.getComputedStyle(firstItem) : null;
+    const marginTop = itemStyles ? Number.parseFloat(itemStyles.marginTop) || 0 : 0;
+    const marginBottom = itemStyles ? Number.parseFloat(itemStyles.marginBottom) || 0 : 0;
+    const itemHeight = itemRectHeight + marginTop + marginBottom;
     const windowHeight = windowRef.current?.getBoundingClientRect().height || ROLL_WINDOW_H;
     return { itemHeight, windowHeight };
   };
@@ -89,12 +95,12 @@ export function ReelColumn({ items, target, reelIdx, spinTrigger, onDone, isSpin
         style={isIdle ? { animationDuration: `${42 + reelIdx * 4}s` } : undefined}
       >
         {strip.map((item, itemIdx) => (
-          <div
+          <ReelSnackItem
             key={`${item.id}-${reelIdx}-${itemIdx}`}
-            className={`gacha-roller-item ${itemIdx === RESULT_IDX ? 'target' : 'decoy'}`}
-          >
-            <img src={item.image} alt={item.name} />
-          </div>
+            item={item}
+            isTarget={itemIdx === RESULT_IDX}
+            unitMultiplier={unitMultiplier}
+          />
         ))}
       </div>
     </div>
