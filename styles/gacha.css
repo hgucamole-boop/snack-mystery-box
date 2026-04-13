@@ -1317,6 +1317,100 @@
   padding: 0.86rem 1.2rem;
 }
 
+.gacha-box-size-modal {
+  width: min(920px, 100%);
+}
+
+.gacha-box-size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.gacha-box-size-card {
+  border: 3px solid rgba(63, 143, 118, 0.28);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 1rem;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  min-height: 220px;
+  justify-content: center;
+}
+
+.gacha-box-size-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--primary);
+  box-shadow: 0 16px 36px rgba(47, 133, 90, 0.16);
+}
+
+.gacha-box-size-card.active {
+  border-color: #2f855a;
+  background: linear-gradient(140deg, rgba(211, 168, 77, 0.16), rgba(47, 133, 90, 0.18));
+  box-shadow: 0 0 0 2px rgba(47, 133, 90, 0.28), 0 14px 30px rgba(24, 52, 42, 0.18);
+}
+
+.gacha-box-size-card-emoji {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.gacha-box-size-card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  color: #0a5e3c;
+  letter-spacing: 0.8px;
+  line-height: 1;
+  text-align: center;
+}
+
+.gacha-box-size-card-pax {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  padding: 0.18rem 0.5rem;
+  font-weight: 600;
+}
+
+.gacha-box-size-card-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: var(--secondary);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.gacha-box-size-card-badge {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  background: rgba(211, 168, 77, 0.9);
+  color: #4f2f00;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 12px rgba(211, 168, 77, 0.25);
+}
+
+.gacha-box-size-actions {
+  margin-top: 1.8rem;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
 .gacha-history-modal {
   width: min(980px, 100%);
   max-height: min(88vh, 860px);

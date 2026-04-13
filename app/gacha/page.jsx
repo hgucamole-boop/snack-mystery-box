@@ -8,6 +8,7 @@ import { snacks as SNACKS } from '@/data/products';
 import { plans } from '@/data/constants';
 import { Navbar } from '@/app/components/Navbar';
 import { SignupInterestModal } from '@/app/gacha/components/SignupInterestModal';
+import { BoxSizeSelectionModal } from '@/app/gacha/components/BoxSizeSelectionModal';
 import { GachaHero } from '@/app/gacha/components/GachaHero';
 import { GachaPreviewEngine } from '@/app/gacha/components/GachaPreviewEngine';
 import { GachaResultsSection } from '@/app/gacha/components/GachaResultsSection';
@@ -54,6 +55,7 @@ export default function GachaPage() {
   const [settledCount, setSettledCount] = useState(0);
   const [spinTrigger, setSpinTrigger] = useState(0);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isBoxSizeModalOpen, setIsBoxSizeModalOpen] = useState(true);
   const [isHistorySheetOpen, setIsHistorySheetOpen] = useState(false);
   const [activeHistoryPull, setActiveHistoryPull] = useState(null);
   const [signupEmail, setSignupEmail] = useState('');
@@ -246,6 +248,14 @@ export default function GachaPage() {
           />
 
           <GachaSignupCta onSignupOpen={() => setIsSignupOpen(true)} />
+
+          <BoxSizeSelectionModal
+            isOpen={isBoxSizeModalOpen}
+            boxOptions={boxOptions}
+            selectedBoxId={selectedBoxId}
+            onSelect={handleBoxSizeChange}
+            onClose={() => setIsBoxSizeModalOpen(false)}
+          />
 
           <SignupInterestModal
             isOpen={isSignupOpen}
