@@ -12,6 +12,8 @@ export function GachaResultsSection({
 }) {
   const placeholderCount = selection.length || 6;
 
+  const formatCategory = (category) => category.replace(/_/g, ' ');
+
   return (
     <section ref={resultsRef} className="gacha-results-wrap">
       <div className="gacha-results-controls">
@@ -63,6 +65,7 @@ export function GachaResultsSection({
                     {item.rarity.toLowerCase()}
                   </span>
                   <h3>{item.name}</h3>
+                  <small className="gacha-category-text">{formatCategory(item.category)}</small>
                 </div>
                 <div className="gacha-card-meta">
                   <span>{item.multiple * unitMultiplier} units</span>

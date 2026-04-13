@@ -970,9 +970,14 @@
 }
 
 .gacha-results {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+.gacha-results > .gacha-card {
+  flex: 1 1 calc((100% - 1.5rem) / 3);
+  min-width: 220px;
 }
 
 .gacha-card {
@@ -1040,7 +1045,17 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border: 1px solid transparent;
-  margin-bottom: 0.5rem;
+}
+
+.gacha-category-text {
+  display: block;
+  margin-top: -0.05rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(3, 32, 23, 0.58);
+  line-height: 1;
 }
 
 .gacha-rarity-badge.common {
@@ -1770,7 +1785,11 @@
   }
 
   .gacha-results {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+  }
+
+  .gacha-results > .gacha-card {
+    flex-basis: calc((100% - 0.75rem) / 2);
   }
 
   .gacha-signup-cta {
@@ -1840,7 +1859,7 @@
   }
 }
 
-@media (max-height: 600px) {
+@media (max-height: 620px) {
   .gacha-chips {
     display: none;
   }
@@ -1998,10 +2017,14 @@
     width: 100%;
   }
 
-  .gacha-results,
   .gacha-savings,
   .gacha-trust {
     grid-template-columns: 1fr;
+  }
+
+  .gacha-results > .gacha-card {
+    flex-basis: 100%;
+    min-width: 0;
   }
 
   .gacha-results-controls {
