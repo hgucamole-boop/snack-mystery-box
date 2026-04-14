@@ -278,7 +278,7 @@ export default function GachaPage() {
         </main>
 
         <aside className="gacha-sidebar gacha-sidebar-right" aria-label="Live pull activity">
-          <GachaLivePullsSidebar snacks={SNACKS} />
+          <GachaLivePullsSidebar snacks={SNACKS} pullHistory={pullHistory} />
         </aside>
       </div>
 

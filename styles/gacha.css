@@ -379,6 +379,72 @@
   line-height: 1.45;
 }
 
+.gacha-sustainability-tracker {
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(6, 67, 43, 0.22);
+  background: linear-gradient(145deg, rgba(232, 252, 241, 0.92), rgba(216, 247, 231, 0.86));
+  border-radius: 0.72rem;
+  padding: 0.62rem;
+}
+
+.gacha-sustainability-head {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.gacha-sustainability-icon {
+  width: 13px;
+  height: 13px;
+  color: #0d734a;
+}
+
+.gacha-sustainability-head p {
+  margin: 0;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(3, 32, 23, 0.72);
+  font-weight: 700;
+}
+
+.gacha-sustainability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.gacha-sustainability-grid article {
+  border: 1px solid rgba(6, 67, 43, 0.16);
+  background: rgba(255, 255, 255, 0.74);
+  border-radius: 0.52rem;
+  padding: 0.34rem;
+  text-align: center;
+}
+
+.gacha-sustainability-stat-icon {
+  width: 11px;
+  height: 11px;
+  color: #0a6f46;
+}
+
+.gacha-sustainability-grid span {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.54rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(3, 32, 23, 0.62);
+}
+
+.gacha-sustainability-grid strong {
+  display: block;
+  margin-top: 0.05rem;
+  font-size: 0.73rem;
+  color: #0a5e3c;
+}
+
 .gacha-history-empty {
   margin: 0;
   font-size: 0.88rem;

@@ -1,7 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Leaf, PackageCheck, Recycle } from 'lucide-react';
 
 const fakeUsernames = [
   'snackhunter',
@@ -45,8 +47,30 @@ function buildFakePull(id, items) {
   };
 }
 
-export function GachaLivePullsSidebar({ snacks }) {
+function getUnitsForPull(pull) {
+  const multiplier = Number.isFinite(Number(pull?.unitMultiplier)) && Number(pull.unitMultiplier) > 0
+    ? Number(pull.unitMultiplier)
+    : 1;
+
+  return (pull?.selection || []).reduce((sum, item) => {
+    const itemUnits = Number.isFinite(Number(item?.multiple)) && Number(item.multiple) > 0
+      ? Number(item.multiple)
+      : 1;
+    return sum + itemUnits * multiplier;
+  }, 0);
+}
+
+export function GachaLivePullsSidebar({ snacks, pullHistory = [] }) {
   const [livePulls, setLivePulls] = useState([]);
+
+  const sustainabilityTotals = useMemo(() => {
+    const snacksRescued = pullHistory.reduce((total, pull) => total + getUnitsForPull(pull), 0);
+    return {
+      snacksRescued,
+      co2Kg: snacksRescued * 0.18,
+      wasteKg: snacksRescued * 0.32,
+    };
+  }, [pullHistory]);
 
   useEffect(() => {
     if (!snacks.length) return undefined;
@@ -66,7 +90,8 @@ export function GachaLivePullsSidebar({ snacks }) {
       timeoutId = setTimeout(() => {
         if (isCancelled) return;
 
-        setLivePulls((prev) => [buildFakePull(`live-${Date.now()}`, snacks), ...prev].slice(0, 24));
+        const nextPull = buildFakePull(`live-${Date.now()}`, snacks);
+        setLivePulls((prev) => [nextPull, ...prev].slice(0, 24));
         scheduleNextPull();
       }, nextDelay);
     };
@@ -81,6 +106,31 @@ export function GachaLivePullsSidebar({ snacks }) {
 
   return (
     <div className="gacha-live-panel">
+      <section className="gacha-sustainability-tracker" aria-label="Sustainability tracker">
+        <div className="gacha-sustainability-head">
+          <Leaf className="gacha-sustainability-icon" />
+          <p>Sustainability Tracker</p>
+        </div>
+
+        <div className="gacha-sustainability-grid">
+          <article>
+            <PackageCheck className="gacha-sustainability-stat-icon" />
+            <span>Snacks Rescued</span>
+            <strong>{Math.round(sustainabilityTotals.snacksRescued)}</strong>
+          </article>
+          <article>
+            <Recycle className="gacha-sustainability-stat-icon" />
+            <span>Food Saved</span>
+            <strong>{sustainabilityTotals.wasteKg.toFixed(1)} kg</strong>
+          </article>
+          <article>
+            <Leaf className="gacha-sustainability-stat-icon" />
+            <span>CO2 Avoided</span>
+            <strong>{sustainabilityTotals.co2Kg.toFixed(1)} kg</strong>
+          </article>
+        </div>
+      </section>
+
       <div className="gacha-sidebar-heading">
         <span className="gacha-live-dot gacha-live-dot-pulse" aria-hidden="true" />
         <h3>Live Pulls</h3>
