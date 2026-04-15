@@ -68,7 +68,7 @@ export function GachaLivePullsSidebar({ snacks, pullHistory = [] }) {
     return {
       snacksRescued,
       co2Kg: snacksRescued * 0.18,
-      wasteKg: snacksRescued * 0.32,
+      wasteKg: snacksRescued * 0.2,
     };
   }, [pullHistory]);
 
@@ -115,7 +115,7 @@ export function GachaLivePullsSidebar({ snacks, pullHistory = [] }) {
         <div className="gacha-sustainability-grid">
           <article>
             <PackageCheck className="gacha-sustainability-stat-icon" />
-            <span>Snacks Rescued</span>
+            <span>Units Rescued</span>
             <strong>{Math.round(sustainabilityTotals.snacksRescued)}</strong>
           </article>
           <article>

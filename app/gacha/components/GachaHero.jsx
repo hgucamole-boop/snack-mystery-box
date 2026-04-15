@@ -5,7 +5,7 @@ export function GachaHero() {
     <header className="gacha-hero" style={{ paddingTop: "1rem", paddingBottom: "0.5rem" }}>
       {/* <div className="gacha-hero-badge">Sustainable Discovery</div> */}
       <h1 className="gacha-title" style={{paddingTop: "0rem"}}>
-        Preview Your Snack Adventure
+        Preview Your Pantry Adventure
         {/* <p><span>Curated Selection</span></p> */}
       </h1>
       <p className="gacha-subtitle">

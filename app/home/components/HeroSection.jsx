@@ -16,7 +16,7 @@ export function HeroSection() {
             CURIOSITY.
           </h1>
           <p className="hero-subtitle">
-            The snack box that turns food waste into adventures. Curated from surplus, supply your pantries and events with treats and hidden gems from local markets. 
+            The pantry supply box that turns food waste into adventures. Curated from surplus, supply your pantries and events with treats, drinks and hidden gems from local and international brands. 
           </p>
           <div className="hero-actions">
             <a href="/gacha" className="cta-button hero-cta">

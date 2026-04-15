@@ -950,10 +950,10 @@
   margin-bottom: 0.7rem;
 }
 
-.gacha-results-controls h3 {
-  margin: 0 auto 0 0;
+.gacha-results-controls h2 {
+  margin: 0;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   letter-spacing: 1px;
   color: var(--secondary);
   text-shadow: 1px 1px 0 var(--primary);

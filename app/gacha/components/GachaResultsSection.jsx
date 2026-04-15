@@ -17,8 +17,9 @@ export function GachaResultsSection({
   return (
     <section ref={resultsRef} className="gacha-results-wrap">
       <div className="gacha-results-controls">
-        <h3>Box Size</h3>
-        <div className="gacha-size-selector" role="radiogroup" aria-label="Select box size">
+        <div className="gacha-size-control-header" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', justifyContent: 'flex-start' }}>
+          {/* <h2 style={{ margin: 0, whiteSpace: 'nowrap' }}>Box Size</h2> */}
+          <div className="gacha-size-selector" role="radiogroup" aria-label="Select box size">
           {boxOptions.map((box) => {
             const isSelected = selectedBoxId === box.id;
             const boxIcon = isSelected ? (box.emojiSelected || box.emoji) : box.emoji;
@@ -44,8 +45,7 @@ export function GachaResultsSection({
             );
           })}
         </div>
-      </div>
-
+      </div>      </div>
       <div className="gacha-results">
         {!hasPulls &&
           Array.from({ length: placeholderCount }).map((_, idx) => (
