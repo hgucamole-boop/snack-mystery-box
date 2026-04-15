@@ -53,23 +53,28 @@ export function BoxSizeSelectionModal({
         <p>Select the plan that works best for you, then start spinning!</p>
         
         <div className="gacha-box-size-grid">
-          {boxOptions.map((box) => (
-            <button
-              key={box.id}
-              type="button"
-              className={`gacha-box-size-card ${selectedBoxId === box.id ? 'active' : ''}`}
-              onClick={() => handleBoxSelect(box.id)}
-              aria-pressed={selectedBoxId === box.id}
-            >
-              <div className="gacha-box-size-card-emoji">{box.emoji}</div>
-              <div className="gacha-box-size-card-name">{box.name}</div>
-              <div className="gacha-box-size-card-pax">{box.pax}</div>
-              <div className="gacha-box-size-card-price">{box.price}</div>
-              {box.popular && (
-                <div className="gacha-box-size-card-badge">✨ Popular</div>
-              )}
-            </button>
-          ))}
+          {boxOptions.map((box) => {
+            const isSelected = selectedBoxId === box.id;
+            const boxIcon = isSelected ? (box.emojiSelected || box.emoji) : box.emoji;
+
+            return (
+              <button
+                key={box.id}
+                type="button"
+                className={`gacha-box-size-card ${isSelected ? 'active' : ''}`}
+                onClick={() => handleBoxSelect(box.id)}
+                aria-pressed={isSelected}
+              >
+                <img className="gacha-box-size-card-emoji" src={boxIcon} alt={`${box.name} icon`} />
+                <div className="gacha-box-size-card-name">{box.name}</div>
+                <div className="gacha-box-size-card-pax">{box.pax}</div>
+                <div className="gacha-box-size-card-price">{box.price}</div>
+                {box.popular && (
+                  <div className="gacha-box-size-card-badge">✨ Popular</div>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         <div className="gacha-box-size-actions">

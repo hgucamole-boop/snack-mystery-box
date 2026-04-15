@@ -34,6 +34,7 @@ export default function GachaPage() {
       name: plan.name,
       pax: plan.pax,
       emoji: plan.emoji,
+      emojiSelected: plan.emojiSelected,
       popular: plan.popular,
       price: plan.price,
       unitMultiplier: plan.unitMultiplier || 1,

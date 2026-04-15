@@ -57,7 +57,8 @@ export const rarityProbabilities: Record<Rarity, number> = {
 export const caseConfig = {
   snack_crate: {
     name: 'Starter Crew',
-    emoji: '🧑‍🤝‍🧑',
+    emoji: '/icons/costumer.svg',
+    emojiSelected: '/icons/costumer_yellow.svg',
     price: 99.99,
     hot: false,
     pax: '5–10 pax',
@@ -67,7 +68,8 @@ export const caseConfig = {
   },
   premium_box: {
     name: 'Full Squad',
-    emoji: '🏢',
+    emoji: '/icons/workplace.svg',
+    emojiSelected: '/icons/workplace_yellow.svg',
     price: 179.99,
     hot: true,
     pax: '10–20 pax',
@@ -77,7 +79,8 @@ export const caseConfig = {
   },
   legend_drop: {
     name: 'Office Legend',
-    emoji: '🏆',
+    emoji: '/icons/trophy.svg',
+    emojiSelected: '/icons/trophy_yellow.svg',
     price: 349.99,
     hot: false,
     pax: '30+ pax',

@@ -19,17 +19,21 @@ export function GachaResultsSection({
       <div className="gacha-results-controls">
         <h3>Box Size</h3>
         <div className="gacha-size-selector" role="radiogroup" aria-label="Select box size">
-          {boxOptions.map((box) => (
+          {boxOptions.map((box) => {
+            const isSelected = selectedBoxId === box.id;
+            const boxIcon = isSelected ? (box.emojiSelected || box.emoji) : box.emoji;
+
+            return (
             <button
               key={box.id}
               type="button"
-              className={`gacha-size-btn ${selectedBoxId === box.id ? 'active' : ''}`}
+              className={`gacha-size-btn ${isSelected ? 'active' : ''}`}
               onClick={() => onBoxSizeChange(box.id)}
               disabled={isSpinning}
-              aria-checked={selectedBoxId === box.id}
+              aria-checked={isSelected}
               role="radio"
             >
-              <span className="gacha-size-emoji">{box.emoji}</span>
+              <img className="gacha-size-emoji" src={boxIcon} alt={`${box.name} icon`} />
               <span className="gacha-size-name">{box.name}</span>
               <span className="gacha-size-price">
                 <span className="gacha-size-price-value">{box.price}</span>
@@ -37,7 +41,8 @@ export function GachaResultsSection({
               </span>
               <span className="gacha-size-pax">{box.pax}</span>
             </button>
-          ))}
+            );
+          })}
         </div>
       </div>
 

@@ -1,10 +1,12 @@
 'use client';
 
 export function PricingCard({ plan, isSelected, onSelect }) {
+  const planIcon = isSelected ? (plan.emojiSelected || plan.emoji) : plan.emoji;
+
   return (
     <div className={`pricing-card ${plan.popular ? 'popular' : ''}`}>
       {plan.popular && <div className="popular-badge">BEST VALUE</div>}
-      <span className="plan-emoji">{plan.emoji}</span>
+      <img className="plan-emoji" src={planIcon} alt={`${plan.name} icon`} />
       <div className="plan-name">{plan.name}</div>
       <span className="plan-pax">{plan.pax}</span>
       <div className="plan-price-row">

@@ -1015,8 +1015,11 @@
 }
 
 .gacha-size-emoji {
-  font-size: 1.15rem;
-  line-height: 1;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-bottom: 0.5rem;
+  object-fit: contain;
+  display: block;
 }
 
 .gacha-size-name {
@@ -1469,8 +1472,10 @@
 }
 
 .gacha-box-size-card-emoji {
-  font-size: 2.4rem;
-  line-height: 1;
+  width: 2.4rem;
+  height: 2.4rem;
+  object-fit: contain;
+  display: block;
 }
 
 .gacha-box-size-card-name {
@@ -2093,7 +2098,8 @@
   .gacha-box-size-card-emoji {
     grid-column: 1;
     grid-row: 1 / span 2;
-    font-size: 1.65rem;
+    width: 1.65rem;
+    height: 1.65rem;
   }
 
   .gacha-box-size-card-name {
@@ -2255,7 +2261,8 @@
   }
 
   .gacha-size-emoji {
-    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
   }
 
   .gacha-size-name {
